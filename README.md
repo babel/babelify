@@ -15,9 +15,9 @@
 ### Node
 
 ```javascript
-var to5 = require("6to5");
+var to5 = require("6to5-browserify");
 browserify()
-  .transform(to5.browserify)
+  .transform(to5Browserify)
   .require("script.js", { entry: true })
   .bundle({ debug: true })
   .pipe(fs.createWriteStream("bundle.js"));
