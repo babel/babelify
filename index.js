@@ -1,4 +1,5 @@
 var through = require("through");
+var path    = require("path");
 var to5     = require("6to5");
 var _       = require("lodash");
 
@@ -10,6 +11,10 @@ browserify.configure = function (opts) {
   opts = opts || {};
 
   return function (filename) {
+    if (path.extname(filename) == '.json') {
+      return through();
+    }
+
     var data = "";
 
     var write = function (buf) {
