@@ -10,6 +10,8 @@ browserify.configure = function (opts) {
   opts = opts || {};
 
   return function (filename) {
+    if (!to5.util.canCompile(filename)) return through();
+
     var data = "";
 
     var write = function (buf) {
