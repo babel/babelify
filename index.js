@@ -20,7 +20,7 @@ browserify.configure = function (opts) {
       var opts2 = _.clone(opts);
       opts2.filename = filename;
 
-      var out = to5.transform(data, opts2);
+      var out = to5.transform(data, opts2).code;
       stream.queue(out);
       stream.queue(null);
     };
