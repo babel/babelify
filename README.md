@@ -15,7 +15,7 @@
 ### Node
 
 ```javascript
-var to5 = require("6to5-browserify");
+var to5Browserify = require("6to5-browserify");
 browserify()
   .transform(to5Browserify)
   .require("script.js", { entry: true })
