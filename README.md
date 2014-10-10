@@ -15,10 +15,13 @@
 ### Node
 
 ```javascript
+var fs = require("fs");
+var browserify = require("browserify");
 var to5Browserify = require("6to5-browserify");
-browserify()
+browserify({ debug: true })
   .transform(to5Browserify)
-  .require("script.js", { entry: true })
-  .bundle({ debug: true })
+  .require("./script.js", { entry: true })
+  .bundle()
+  .on('error', function(err) {console.log('Error : ' + err.message);})
   .pipe(fs.createWriteStream("bundle.js"));
 ```
