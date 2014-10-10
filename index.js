@@ -9,10 +9,10 @@ var browserify = module.exports = function (filename) {
 
 browserify.configure = function (opts) {
   opts = opts || {};
-  opts.sourceMap = opts.sourceMap !== false ? 'inline' : false;
+  opts.sourceMap = opts.sourceMap !== false ? "inline" : false;
 
   return function (filename) {
-    if (path.extname(filename) == '.json') {
+    if (path.extname(filename) == ".json") {
       return through();
     }
     
@@ -29,7 +29,7 @@ browserify.configure = function (opts) {
       try {
         var out = to5.transform(data, opts2).code;
       } catch(err) {
-        stream.emit('error', err);
+        stream.emit("error", err);
         stream.queue(null);
         return;
       }
