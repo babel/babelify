@@ -26,6 +26,14 @@ browserify({ debug: true })
   .pipe(fs.createWriteStream("bundle.js"));
 ```
 
+#### [Options](https://github.com/sebmck/6to5#options)
+
+```javascript
+browserify().transform(to5Browserify.configure({
+  blacklist: ["generators"]
+}))
+```
+
 #### Ignoring files
 
 ```javascript
