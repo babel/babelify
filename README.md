@@ -22,7 +22,7 @@ browserify({ debug: true })
   .transform(to5Browserify)
   .require("./script.js", { entry: true })
   .bundle()
-  .on("error", function(err) {console.log("Error : " + err.message);})
+  .on("error", function (err) { console.log("Error : " + err.message); })
   .pipe(fs.createWriteStream("bundle.js"));
 ```
 
