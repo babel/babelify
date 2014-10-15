@@ -25,3 +25,11 @@ browserify({ debug: true })
   .on("error", function(err) {console.log("Error : " + err.message);})
   .pipe(fs.createWriteStream("bundle.js"));
 ```
+
+#### Ignoring files
+
+```javascript
+browserify().transform(to5Browserify.configure({
+  ignore: /\.js/
+}))
+```
