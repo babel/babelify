@@ -12,7 +12,7 @@ browserify.configure = function (opts) {
   opts.sourceMap = opts.sourceMap !== false ? "inline" : false;
 
   return function (filename) {
-    if ((opts.ignore && opts.ignore.test(filename)) || path.extname(filename) == ".json") {
+    if ((opts.ignore && opts.ignore.test(filename)) || !to5.canCompile(filename, opts.extensions)) {
       return through();
     }
     

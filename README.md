@@ -34,10 +34,24 @@ browserify().transform(to5Browserify.configure({
 }))
 ```
 
+#### Customising extensions
+
+By default all files with the extensions `.js`, `.es6` and `.jsx` are compiled.
+You can change this by passing an array of extensions.
+
+**NOTE:** This will override the default ones so if you want to use any of them
+you have to add them back.
+
+```javascript
+browserify().transform(to5Browserify.configure({
+  extensions: [".6to5"]
+}))
+```
+
 #### Ignoring files
 
 ```javascript
 browserify().transform(to5Browserify.configure({
-  ignore: /\.js/
+  ignore: /your_regex_here/
 }))
 ```
