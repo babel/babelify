@@ -1,6 +1,6 @@
 # 6to5-browserify
 
-[6to5](https://github.com/sebmck/6to5) [browserify](https://github.com/substack/node-browserify) plugin
+[6to5](https://github.com/6to5/6to5) [browserify](https://github.com/substack/node-browserify) plugin
 
 ## Installation
 
