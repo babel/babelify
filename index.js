@@ -3,8 +3,8 @@ var path    = require("path");
 var to5     = require("6to5");
 var _       = require("lodash");
 
-var browserify = module.exports = function (filename) {
-  return browserify.configure()(filename);
+var browserify = module.exports = function (filename, opts) {
+  return browserify.configure(opts)(filename);
 };
 
 browserify.configure = function (opts) {
