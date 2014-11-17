@@ -12,10 +12,14 @@ browserify.configure = function (opts) {
   opts.sourceMap = opts.sourceMap !== false ? "inline" : false;
 
   return function (filename) {
-    if ((opts.ignore && opts.ignore.test(filename)) || !to5.canCompile(filename, opts.extensions)) {
+    if(
+        (opts.only && !opts.only.test(filename)) ||
+        (opts.ignore && opts.ignore.test(filename)) ||
+        !to5.canCompile(filename, opts.extensions)
+      ) {
       return through();
     }
-    
+
     var data = "";
 
     var write = function (buf) {
