@@ -9,10 +9,15 @@ var browserify = module.exports = function (filename, opts) {
 
 browserify.configure = function (opts) {
   opts = opts || {};
-  opts.sourceMap = opts.sourceMap !== false ? "inline" : false;
+  if (opts.sourceMap !== false) opts.sourceMap = "inline" ;
+  if (opts.extensions) opts.extensions = to5._util.arrayify(opts.extensions);
+  if (opts.ignore) opts.ignore = to5._util.regexify(opts.ignore);
+  if (opts.only) opts.only = to5._util.regexify(opts.only);
 
   return function (filename) {
-    if ((opts.ignore && opts.ignore.test(filename)) || !to5.canCompile(filename, opts.extensions)) {
+    if ((opts.ignore && opts.ignore.test(filename)) ||
+        (opts.only && !opts.only.test(filename)) ||
+        !to5.canCompile(filename, opts.extensions)) {
       return through();
     }
     

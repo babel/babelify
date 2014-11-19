@@ -48,10 +48,16 @@ browserify().transform(to5Browserify.configure({
 }))
 ```
 
-#### Ignoring files
+#### Additional options
 
 ```javascript
 browserify().transform(to5Browserify.configure({
-  ignore: /your_regex_here/
+  // Optional ignore regex - if any filenames **do** match this regex then they
+  // aren't compiled
+  ignore: /regex/,
+
+  // Optional only regex - if any filenames **don't** match this regex then they
+  // aren't compiled
+  only: /my_es6_folder/
 }))
 ```
