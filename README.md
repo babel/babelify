@@ -26,7 +26,7 @@ browserify({ debug: true })
   .pipe(fs.createWriteStream("bundle.js"));
 ```
 
-#### [Options](https://github.com/sebmck/6to5#options)
+#### [Options](https://6to5.github.io/usage.html#options)
 
 ```javascript
 browserify().transform(to5Browserify.configure({
