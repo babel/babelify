@@ -1,25 +1,25 @@
-# 6to5-browserify
+# 6to5ify
 
 [6to5](https://github.com/6to5/6to5) [browserify](https://github.com/substack/node-browserify) plugin
 
 ## Installation
 
-    $ npm install -g 6to5-browserify
+    $ npm install -g 6to5ify
 
 ## Usage
 
 ### CLI
 
-    $ browserify script.js -t 6to5-browserify --outfile bundle.js
+    $ browserify script.js -t 6to5ify --outfile bundle.js
 
 ### Node
 
 ```javascript
 var fs = require("fs");
 var browserify = require("browserify");
-var to5Browserify = require("6to5-browserify");
+var to5ify = require("6to5ify");
 browserify({ debug: true })
-  .transform(to5Browserify)
+  .transform(to5ify)
   .require("./script.js", { entry: true })
   .bundle()
   .on("error", function (err) { console.log("Error : " + err.message); })
@@ -29,7 +29,7 @@ browserify({ debug: true })
 #### [Options](https://6to5.github.io/usage.html#options)
 
 ```javascript
-browserify().transform(to5Browserify.configure({
+browserify().transform(to5ify.configure({
   blacklist: ["generators"]
 }))
 ```
@@ -43,7 +43,7 @@ You can change this by passing an array of extensions.
 you have to add them back.
 
 ```javascript
-browserify().transform(to5Browserify.configure({
+browserify().transform(to5ify.configure({
   extensions: [".6to5"]
 }))
 ```
@@ -51,7 +51,7 @@ browserify().transform(to5Browserify.configure({
 #### Additional options
 
 ```javascript
-browserify().transform(to5Browserify.configure({
+browserify().transform(to5ify.configure({
   // Optional ignore regex - if any filenames **do** match this regex then they
   // aren't compiled
   ignore: /regex/,
