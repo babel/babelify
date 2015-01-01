@@ -34,6 +34,10 @@ browserify().transform(to5ify.configure({
 }))
 ```
 
+```sh
+$ browserify -d -e script.js -t [ 6to5ify --blacklist generators ]
+```
+
 #### Customising extensions
 
 By default all files with the extensions `.js`, `.es6` and `.jsx` are compiled.
@@ -48,6 +52,10 @@ browserify().transform(to5ify.configure({
 }))
 ```
 
+```sh
+$ browserify -d -e script.js -t [ 6to5ify --extensions .6to5 ]
+```
+
 #### Relative source maps
 
 Browserify passes an absolute path so there's no way to determine what folder
@@ -58,6 +66,10 @@ absolute path with the `sourceMapRelative` option.
 browserify().transform(to5ify.configure({
   sourceMapRelative: "/Users/sebastian/Projects/my-cool-website/assets"
 }))
+```
+
+```sh
+$ browserify -d -e script.js -t [ 6to5ify --sourceMapRelative . ]
 ```
 
 #### Additional options
@@ -72,4 +84,8 @@ browserify().transform(to5ify.configure({
   // aren't compiled
   only: /my_es6_folder/
 }))
+```
+
+```sh
+$ browserify -d -e script.js -t [ 6to5ify --ignore regex --only my_es6_folder ]
 ```
