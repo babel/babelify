@@ -20,6 +20,10 @@ browserify.configure = function (opts) {
         !to5.canCompile(filename, opts.extensions)) {
       return through();
     }
+
+    if (opts.sourceMapRelative) {
+      filename = path.relative(opts.sourceMapRelative, filename);
+    }
     
     var data = "";
 

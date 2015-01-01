@@ -48,6 +48,18 @@ browserify().transform(to5ify.configure({
 }))
 ```
 
+#### Relative source maps
+
+Browserify passes an absolute path so there's no way to determine what folder
+it's relative to. You can pass a relative path that'll be removed from the 
+absolute path with the `sourceMapRelative` option.
+
+```javascript
+browserify().transform(to5ify.configure({
+  sourceMapRelative: "/Users/sebastian/Projects/my-cool-website/assets"
+}))
+```
+
 #### Additional options
 
 ```javascript
