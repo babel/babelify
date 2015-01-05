@@ -4,7 +4,7 @@
 
 ## Installation
 
-    $ npm install -g 6to5ify
+    $ npm install --save-dev 6to5ify
 
 ## Usage
 
@@ -59,7 +59,7 @@ $ browserify -d -e script.js -t [ 6to5ify --extensions .6to5 ]
 #### Relative source maps
 
 Browserify passes an absolute path so there's no way to determine what folder
-it's relative to. You can pass a relative path that'll be removed from the 
+it's relative to. You can pass a relative path that'll be removed from the
 absolute path with the `sourceMapRelative` option.
 
 ```javascript
