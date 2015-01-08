@@ -1,6 +1,6 @@
 var through = require("through");
 var path    = require("path");
-var to5     = require("6to5");
+var to5     = require("6to5-core");
 var _       = require("lodash");
 
 var browserify = module.exports = function (filename, opts) {
