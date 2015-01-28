@@ -33,6 +33,10 @@ browserify.configure = function (opts) {
 
     var end = function () {
       var opts2 = _.clone(opts);
+      delete opts2.sourceMapRelative;
+      delete opts2.ignore;
+      delete opts2.only;
+      delete opts2.extensions;
       opts2.filename = filename;
 
       try {
