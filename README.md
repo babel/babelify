@@ -38,6 +38,21 @@ browserify().transform(to5ify.configure({
 $ browserify -d -e script.js -t [ 6to5ify --blacklist generators ]
 ```
 
+#### Enable Experimental Transforms
+
+By default 6to5's [experimental transforms](http://6to5.org/docs/usage/transformers/#es7-experimental-)
+are disabled. You can turn them on by passing `experimental` as a configuration option.
+
+```javascript
+browserify().transform(to5ify.configure({
+  experimental: true
+}))
+```
+
+```sh
+$ browserify -d -e script.js -t [ 6to5ify --experimental ]
+```
+
 #### Customising extensions
 
 By default all files with the extensions `.js`, `.es`, '`.es6` and `.jsx` are compiled.
