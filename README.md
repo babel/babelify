@@ -113,5 +113,5 @@ a browserify-only package this may alleviate the necessity to have
 
 ```javascript
 // In browser code
-require('6to5ify/polyfill')
+require("6to5ify/polyfill");
 ```
