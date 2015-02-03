@@ -104,3 +104,14 @@ browserify().transform(to5ify.configure({
 ```sh
 $ browserify -d -e script.js -t [ 6to5ify --ignore regex --only my_es6_folder ]
 ```
+
+#### ES6 Polyfill
+
+As a convenience, the 6to5 polyfill is exposed in 6to5ify. If you've got
+a browserify-only package this may alleviate the necessity to have
+*both* 6to5 & 6to5ify installed.
+
+```javascript
+// In browser code
+require('6to5ify/polyfill')
+```
