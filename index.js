@@ -1,7 +1,7 @@
 var through = require("through");
+var clone   = require("lodash/lang/clone");
 var path    = require("path");
 var to5     = require("6to5-core");
-var _       = require("lodash");
 
 var browserify = module.exports = function (filename, opts) {
   return browserify.configure(opts)(filename);
@@ -32,7 +32,7 @@ browserify.configure = function (opts) {
     };
 
     var end = function () {
-      var opts2 = _.clone(opts);
+      var opts2 = clone(opts);
       delete opts2.sourceMapRelative;
       delete opts2.ignore;
       delete opts2.only;
