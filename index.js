@@ -1,7 +1,7 @@
 var through = require("through");
 var clone   = require("lodash/lang/clone");
+var bable   = require("bable");
 var path    = require("path");
-var to5     = require("6to5-core");
 
 var browserify = module.exports = function (filename, opts) {
   return browserify.configure(opts)(filename);
@@ -10,14 +10,14 @@ var browserify = module.exports = function (filename, opts) {
 browserify.configure = function (opts) {
   opts = opts || {};
   if (opts.sourceMap !== false) opts.sourceMap = "inline" ;
-  if (opts.extensions) opts.extensions = to5._util.arrayify(opts.extensions);
-  if (opts.ignore) opts.ignore = to5._util.regexify(opts.ignore);
-  if (opts.only) opts.only = to5._util.regexify(opts.only);
+  if (opts.extensions) opts.extensions = bable._util.arrayify(opts.extensions);
+  if (opts.ignore) opts.ignore = bable._util.regexify(opts.ignore);
+  if (opts.only) opts.only = bable._util.regexify(opts.only);
 
   return function (filename) {
     if ((opts.ignore && opts.ignore.test(filename)) ||
         (opts.only && !opts.only.test(filename)) ||
-        !to5.canCompile(filename, opts.extensions)) {
+        !bable.canCompile(filename, opts.extensions)) {
       return through();
     }
 
@@ -40,7 +40,7 @@ browserify.configure = function (opts) {
       opts2.filename = filename;
 
       try {
-        var out = to5.transform(data, opts2).code;
+        var out = bable.transform(data, opts2).code;
       } catch(err) {
         stream.emit("error", err);
         stream.queue(null);

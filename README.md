@@ -1,41 +1,41 @@
-# 6to5ify
+# babelify
 
-[6to5](https://github.com/6to5/6to5) [browserify](https://github.com/substack/node-browserify) plugin
+[Babel](https://github.com/babel/babel) [browserify](https://github.com/substack/node-browserify) plugin
 
 ## Installation
 
-    $ npm install --save-dev 6to5ify
+    $ npm install --save-dev babelify
 
 ## Usage
 
 ### CLI
 
-    $ browserify script.js -t 6to5ify --outfile bundle.js
+    $ browserify script.js -t babelify --outfile bundle.js
 
 ### Node
 
 ```javascript
 var fs = require("fs");
 var browserify = require("browserify");
-var to5ify = require("6to5ify");
+var babelify = require("babelify");
 browserify({ debug: true })
-  .transform(to5ify)
+  .transform(babelify)
   .require("./script.js", { entry: true })
   .bundle()
   .on("error", function (err) { console.log("Error : " + err.message); })
   .pipe(fs.createWriteStream("bundle.js"));
 ```
 
-#### [Options](https://6to5.github.io/usage.html#options)
+#### [Options](https://babeljs.io/docs/usage/options)
 
 ```javascript
-browserify().transform(to5ify.configure({
+browserify().transform(babelify.configure({
   blacklist: ["generators"]
 }))
 ```
 
 ```sh
-$ browserify -d -e script.js -t [ 6to5ify --blacklist generators ]
+$ browserify -d -e script.js -t [ babelify --blacklist generators ]
 ```
 
 #### Enable Experimental Transforms
@@ -44,13 +44,13 @@ By default 6to5's [experimental transforms](http://6to5.org/docs/usage/transform
 are disabled. You can turn them on by passing `experimental` as a configuration option.
 
 ```javascript
-browserify().transform(to5ify.configure({
+browserify().transform(babelify.configure({
   experimental: true
 }))
 ```
 
 ```sh
-$ browserify -d -e script.js -t [ 6to5ify --experimental ]
+$ browserify -d -e script.js -t [ babelify --experimental ]
 ```
 
 #### Customising extensions
@@ -62,13 +62,13 @@ You can change this by passing an array of extensions.
 you have to add them back.
 
 ```javascript
-browserify().transform(to5ify.configure({
+browserify().transform(babelify.configure({
   extensions: [".6to5"]
 }))
 ```
 
 ```sh
-$ browserify -d -e script.js -t [ 6to5ify --extensions .6to5 ]
+$ browserify -d -e script.js -t [ babelify --extensions .6to5 ]
 ```
 
 #### Relative source maps
@@ -78,19 +78,19 @@ it's relative to. You can pass a relative path that'll be removed from the
 absolute path with the `sourceMapRelative` option.
 
 ```javascript
-browserify().transform(to5ify.configure({
+browserify().transform(babelify.configure({
   sourceMapRelative: "/Users/sebastian/Projects/my-cool-website/assets"
 }))
 ```
 
 ```sh
-$ browserify -d -e script.js -t [ 6to5ify --sourceMapRelative . ]
+$ browserify -d -e script.js -t [ babelify --sourceMapRelative . ]
 ```
 
 #### Additional options
 
 ```javascript
-browserify().transform(to5ify.configure({
+browserify().transform(babelify.configure({
   // Optional ignore regex - if any filenames **do** match this regex then they
   // aren't compiled
   ignore: /regex/,
@@ -102,16 +102,16 @@ browserify().transform(to5ify.configure({
 ```
 
 ```sh
-$ browserify -d -e script.js -t [ 6to5ify --ignore regex --only my_es6_folder ]
+$ browserify -d -e script.js -t [ babelify --ignore regex --only my_es6_folder ]
 ```
 
 #### ES6 Polyfill
 
-As a convenience, the 6to5 polyfill is exposed in 6to5ify. If you've got
+As a convenience, the babelify polyfill is exposed in babelify. If you've got
 a browserify-only package this may alleviate the necessity to have
-*both* 6to5 & 6to5ify installed.
+*both* babel & babelify installed.
 
 ```javascript
 // In browser code
-require("6to5ify/polyfill");
+require("babelify/polyfill");
 ```
