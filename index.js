@@ -1,6 +1,6 @@
 var through = require("through");
 var clone   = require("lodash/lang/clone");
-var babel   = require("babel");
+var babel   = require("babel-core");
 var path    = require("path");
 
 var browserify = module.exports = function (filename, opts) {
