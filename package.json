@@ -1,7 +1,7 @@
 {
   "name": "babelify",
   "description": "Babel browserify plugin",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "author": "Sebastian McKenzie <sebmck@gmail.com>",
   "homepage": "https://github.com/babel/babelify",
   "repository": {
@@ -12,7 +12,7 @@
     "url": "https://github.com/babel/babelify/issues"
   },
   "dependencies": {
-    "babel-core": "^3.0.0",
+    "babel-core": "^4.0.0",
     "through": "2.3.4",
     "lodash": "^3.0.0"
   }
