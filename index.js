@@ -1,6 +1,6 @@
 var through = require("through");
 var clone   = require("lodash/lang/clone");
-var bable   = require("bable");
+var babel   = require("babel");
 var path    = require("path");
 
 var browserify = module.exports = function (filename, opts) {
@@ -10,14 +10,14 @@ var browserify = module.exports = function (filename, opts) {
 browserify.configure = function (opts) {
   opts = opts || {};
   if (opts.sourceMap !== false) opts.sourceMap = "inline" ;
-  if (opts.extensions) opts.extensions = bable._util.arrayify(opts.extensions);
-  if (opts.ignore) opts.ignore = bable._util.regexify(opts.ignore);
-  if (opts.only) opts.only = bable._util.regexify(opts.only);
+  if (opts.extensions) opts.extensions = babel._util.arrayify(opts.extensions);
+  if (opts.ignore) opts.ignore = babel._util.regexify(opts.ignore);
+  if (opts.only) opts.only = babel._util.regexify(opts.only);
 
   return function (filename) {
     if ((opts.ignore && opts.ignore.test(filename)) ||
         (opts.only && !opts.only.test(filename)) ||
-        !bable.canCompile(filename, opts.extensions)) {
+        !babel.canCompile(filename, opts.extensions)) {
       return through();
     }
 
@@ -40,7 +40,7 @@ browserify.configure = function (opts) {
       opts2.filename = filename;
 
       try {
-        var out = bable.transform(data, opts2).code;
+        var out = babel.transform(data, opts2).code;
       } catch(err) {
         stream.emit("error", err);
         stream.queue(null);
