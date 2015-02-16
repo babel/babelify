@@ -40,7 +40,7 @@ $ browserify -d -e script.js -t [ babelify --blacklist generators ]
 
 #### Enable Experimental Transforms
 
-By default 6to5's [experimental transforms](http://6to5.org/docs/usage/transformers/#es7-experimental-)
+By default Babel's [experimental transforms](http://babeljs.io/docs/usage/transformers/#es7-experimental-)
 are disabled. You can turn them on by passing `experimental` as a configuration option.
 
 ```javascript
@@ -63,12 +63,12 @@ you have to add them back.
 
 ```javascript
 browserify().transform(babelify.configure({
-  extensions: [".6to5"]
+  extensions: [".babel"]
 }))
 ```
 
 ```sh
-$ browserify -d -e script.js -t [ babelify --extensions .6to5 ]
+$ browserify -d -e script.js -t [ babelify --extensions .babel ]
 ```
 
 #### Relative source maps
