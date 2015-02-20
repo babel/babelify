@@ -1,6 +1,6 @@
 # babelify
 
-[Babel](https://github.com/babel/babel) [browserify](https://github.com/substack/node-browserify) plugin
+[Babel](https://github.com/babel/babel) [browserify](https://github.com/substack/node-browserify) transform
 
 ## Installation
 
