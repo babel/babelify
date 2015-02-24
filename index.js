@@ -24,7 +24,7 @@ browserify.configure = function (opts) {
     if (opts.sourceMapRelative) {
       filename = path.relative(opts.sourceMapRelative, filename);
     }
-    
+
     var data = "";
 
     var write = function (buf) {
@@ -37,6 +37,7 @@ browserify.configure = function (opts) {
       delete opts2.ignore;
       delete opts2.only;
       delete opts2.extensions;
+      delete opts2.global;
       opts2.filename = filename;
 
       try {
@@ -46,7 +47,7 @@ browserify.configure = function (opts) {
         stream.queue(null);
         return;
       }
-      
+
       stream.queue(out);
       stream.queue(null);
     };
