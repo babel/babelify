@@ -12,8 +12,8 @@
     "url": "https://github.com/babel/babelify/issues"
   },
   "dependencies": {
-    "babel-core": "^4.0.0",
-    "through": "2.3.4",
-    "lodash": "^3.0.0"
+    "babel-core": "^4.4.6",
+    "through": "2.3.6",
+    "lodash": "^3.3.1"
   }
 }
