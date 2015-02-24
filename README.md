@@ -55,7 +55,7 @@ $ browserify -d -e script.js -t [ babelify --experimental ]
 
 #### Customising extensions
 
-By default all files with the extensions `.js`, `.es`, '`.es6` and `.jsx` are compiled.
+By default all files with the extensions `.js`, `.es`, `.es6` and `.jsx` are compiled.
 You can change this by passing an array of extensions.
 
 **NOTE:** This will override the default ones so if you want to use any of them
