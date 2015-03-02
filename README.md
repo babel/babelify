@@ -30,12 +30,12 @@ browserify({ debug: true })
 
 ```javascript
 browserify().transform(babelify.configure({
-  blacklist: ["generators"]
+  blacklist: ["regenerator"]
 }))
 ```
 
 ```sh
-$ browserify -d -e script.js -t [ babelify --blacklist generators ]
+$ browserify -d -e script.js -t [ babelify --blacklist regenerator ]
 ```
 
 #### Enable Experimental Transforms
