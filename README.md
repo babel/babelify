@@ -115,3 +115,28 @@ a browserify-only package this may alleviate the necessity to have
 // In browser code
 require("babelify/polyfill");
 ```
+
+## FAQ
+
+### Why aren't files in `node_modules` being transformed?
+
+This is default browserify behaviour and **can not** be overriden. A possible solution is to add:
+
+```json
+{
+  "browserify": {
+    "transform": ["babelify"]
+  }
+}
+```
+
+to the root of all your modules `package.json` that you want to be transformed. If you'd like to
+specify options then you can use:
+
+```json
+{
+  "browserify": {
+    "transform": [["babelify", { "experimental": true }]]
+  }
+}
+```
