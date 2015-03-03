@@ -11,13 +11,11 @@ browserify.configure = function (opts) {
   opts = opts || {};
   if (opts.sourceMap !== false) opts.sourceMap = "inline" ;
   if (opts.extensions) opts.extensions = babel._util.arrayify(opts.extensions);
-  if (opts.ignore) opts.ignore = babel._util.regexify(opts.ignore);
+  opts.ignore = babel._util.regexify(opts.ignore);
   if (opts.only) opts.only = babel._util.regexify(opts.only);
 
   return function (filename) {
-    if ((opts.ignore && opts.ignore.test(filename)) ||
-        (opts.only && !opts.only.test(filename)) ||
-        !babel.canCompile(filename, opts.extensions)) {
+    if (opts.ignore.test(filename) || (opts.only && !opts.only.test(filename)) || !babel.canCompile(filename, opts.extensions)) {
       return through();
     }
 
