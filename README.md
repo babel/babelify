@@ -41,16 +41,28 @@ $ browserify -d -e script.js -t [ babelify --blacklist regenerator ]
 #### Enable Experimental Transforms
 
 By default Babel's [experimental transforms](http://babeljs.io/docs/usage/transformers/#es7-experimental-)
-are disabled. You can turn them on by passing `experimental` as a configuration option.
+are disabled. You can turn them on individually by passing `optional` as a configuration option.
 
 ```javascript
 browserify().transform(babelify.configure({
-  experimental: true
+  optional: ["es7.asyncFunctions"]
 }))
 ```
 
 ```sh
-$ browserify -d -e script.js -t [ babelify --experimental ]
+$ browserify -d -e script.js -t [ babelify --optional es7.asyncFunctions ]
+```
+
+Alternatively, you can enable an entire [TC39 category](http://babeljs.io/docs/usage/experimental/) of experimental ES7 features via the `stage` configuration option.
+
+```javascript
+browserify().transform(babelify.configure({
+  stage: 0
+}))
+```
+
+```sh
+$ browserify -d -e script.js -t [ babelify --stage 0 ]
 ```
 
 #### Customising extensions
@@ -136,7 +148,7 @@ specify options then you can use:
 ```json
 {
   "browserify": {
-    "transform": [["babelify", { "experimental": true }]]
+    "transform": [["babelify", { "optional": ["es7.asyncFunctions"] }]]
   }
 }
 ```
