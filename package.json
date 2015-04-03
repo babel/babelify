@@ -1,7 +1,7 @@
 {
   "name": "babelify",
   "description": "Babel browserify transform",
-  "version": "5.0.4",
+  "version": "5.0.5",
   "author": "Sebastian McKenzie <sebmck@gmail.com>",
   "homepage": "https://github.com/babel/babelify",
   "repository": {
