@@ -13,6 +13,10 @@ browserify.configure = function (opts) {
   if (opts.extensions) opts.extensions = babel.util.arrayify(opts.extensions);
 
   return function (filename) {
+    if (!babel.canCompile(filename, opts.extensions)) {
+      return through();
+    }
+    
     if (opts.sourceMapRelative) {
       filename = path.relative(opts.sourceMapRelative, filename);
     }
