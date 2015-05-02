@@ -13,7 +13,8 @@
   },
   "dependencies": {
     "babel-core": "^5.0.0",
-    "through": "2.3.4",
-    "lodash": "^3.0.0"
+    "get-parent-dir": "^1.0.0",
+    "lodash": "^3.0.0",
+    "through": "2.3.4"
   }
 }

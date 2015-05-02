@@ -2,9 +2,12 @@ var through = require("through");
 var clone   = require("lodash/lang/clone");
 var babel   = require("babel-core");
 var path    = require("path");
+var parent  = require("get-parent-dir")();
 
 var browserify = module.exports = function (filename, opts) {
-  return browserify.configure(opts)(filename);
+  var adjustedFilename = filename.slice(parent.length + 1);
+
+  return browserify.configure(opts)(adjustedFilename);
 };
 
 browserify.configure = function (opts) {
