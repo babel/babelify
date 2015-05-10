@@ -1,5 +1,5 @@
 var through = require("through");
-var clone   = require("lodash/lang/clone");
+var assign  = require("object-assign");
 var babel   = require("babel-core");
 var path    = require("path");
 
@@ -28,7 +28,7 @@ browserify.configure = function (opts) {
     };
 
     var end = function () {
-      var opts2 = clone(opts);
+      var opts2 = assign({}, opts);
       delete opts2.sourceMapRelative;
       delete opts2.extensions;
       delete opts2.global;
