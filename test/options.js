@@ -8,7 +8,7 @@ test('passes options', function(t) {
   var b = browserify(__dirname + '/bundle/index.js');
 
   b.transform(babelify.configure({
-    whitelist: ['es3.propertyLiterals']
+    optional: ['es3.propertyLiterals']
   }));
 
   b.bundle(function (err, src) {
