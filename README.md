@@ -2,6 +2,8 @@
 
 [Babel](https://github.com/babel/babel) [browserify](https://github.com/substack/node-browserify) transform
 
+[![Build Status](https://travis-ci.org/babel/babelify.svg?branch=master)](https://travis-ci.org/babel/babelify)
+
 ## Installation
 
     $ npm install --save-dev babelify
