@@ -8,17 +8,23 @@ var browserify = module.exports = function (filename, opts) {
 };
 
 browserify.configure = function (opts) {
-  opts = opts || {};
-  if (opts.sourceMap !== false) opts.sourceMap = "inline" ;
-  if (opts.extensions) opts.extensions = babel.util.arrayify(opts.extensions);
+  opts = assign({}, opts);
+  var extensions = opts.extensions ? babel.util.arrayify(opts.extensions) : null;
+  var sourceMapRelative = opts.sourceMapRelative;
+  if (opts.sourceMap !== false) opts.sourceMap = "inline";
+
+  delete opts.sourceMapRelative;
+  delete opts.extensions;
+  delete opts.filename;
+  delete opts.global;
 
   return function (filename) {
-    if (!babel.canCompile(filename, opts.extensions)) {
+    if (!babel.canCompile(filename, extensions)) {
       return through();
     }
 
-    if (opts.sourceMapRelative) {
-      filename = path.relative(opts.sourceMapRelative, filename);
+    if (sourceMapRelative) {
+      filename = path.relative(sourceMapRelative, filename);
     }
 
     var data = "";
@@ -29,14 +35,9 @@ browserify.configure = function (opts) {
     };
 
     var end = function (callback) {
-      var opts2 = assign({}, opts);
-      delete opts2.sourceMapRelative;
-      delete opts2.extensions;
-      delete opts2.global;
-      opts2.filename = filename;
-
+      opts.filename = filename;
       try {
-        this.push(babel.transform(data, opts2).code);
+        this.push(babel.transform(data, opts).code);
       } catch(err) {
         this.emit("error", err);
       }
