@@ -1,4 +1,4 @@
-var through = require("through");
+var through = require("through2");
 var assign  = require("object-assign");
 var babel   = require("babel-core");
 var path    = require("path");
@@ -16,18 +16,19 @@ browserify.configure = function (opts) {
     if (!babel.canCompile(filename, opts.extensions)) {
       return through();
     }
-    
+
     if (opts.sourceMapRelative) {
       filename = path.relative(opts.sourceMapRelative, filename);
     }
 
     var data = "";
 
-    var write = function (buf) {
+    var write = function (buf, enc, callback) {
       data += buf;
+      callback();
     };
 
-    var end = function () {
+    var end = function (callback) {
       var opts2 = assign({}, opts);
       delete opts2.sourceMapRelative;
       delete opts2.extensions;
@@ -35,18 +36,13 @@ browserify.configure = function (opts) {
       opts2.filename = filename;
 
       try {
-        var out = babel.transform(data, opts2).code;
+        this.push(babel.transform(data, opts2).code);
       } catch(err) {
-        stream.emit("error", err);
-        stream.queue(null);
-        return;
+        this.emit("error", err);
       }
-
-      stream.queue(out);
-      stream.queue(null);
+      callback();
     };
 
-    var stream = through(write, end);
-    return stream;
+    return through(write, end);
   };
 };
