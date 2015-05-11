@@ -1,5 +1,5 @@
-var through = require("through");
-var clone   = require("lodash/lang/clone");
+var through = require("through2");
+var assign  = require("object-assign");
 var babel   = require("babel-core");
 var path    = require("path");
 
@@ -8,45 +8,42 @@ var browserify = module.exports = function (filename, opts) {
 };
 
 browserify.configure = function (opts) {
-  opts = opts || {};
-  if (opts.sourceMap !== false) opts.sourceMap = "inline" ;
-  if (opts.extensions) opts.extensions = babel.util.arrayify(opts.extensions);
+  opts = assign({}, opts);
+  var extensions = opts.extensions ? babel.util.arrayify(opts.extensions) : null;
+  var sourceMapRelative = opts.sourceMapRelative;
+  if (opts.sourceMap !== false) opts.sourceMap = "inline";
+
+  delete opts.sourceMapRelative;
+  delete opts.extensions;
+  delete opts.filename;
+  delete opts.global;
 
   return function (filename) {
-    if (!babel.canCompile(filename, opts.extensions)) {
+    if (!babel.canCompile(filename, extensions)) {
       return through();
     }
-    
-    if (opts.sourceMapRelative) {
-      filename = path.relative(opts.sourceMapRelative, filename);
+
+    if (sourceMapRelative) {
+      filename = path.relative(sourceMapRelative, filename);
     }
 
     var data = "";
 
-    var write = function (buf) {
+    var write = function (buf, enc, callback) {
       data += buf;
+      callback();
     };
 
-    var end = function () {
-      var opts2 = clone(opts);
-      delete opts2.sourceMapRelative;
-      delete opts2.extensions;
-      delete opts2.global;
-      opts2.filename = filename;
-
+    var end = function (callback) {
+      opts.filename = filename;
       try {
-        var out = babel.transform(data, opts2).code;
+        this.push(babel.transform(data, opts).code);
       } catch(err) {
-        stream.emit("error", err);
-        stream.queue(null);
-        return;
+        this.emit("error", err);
       }
-
-      stream.queue(out);
-      stream.queue(null);
+      callback();
     };
 
-    var stream = through(write, end);
-    return stream;
+    return through(write, end);
   };
 };
