@@ -12,7 +12,7 @@
     "url": "https://github.com/babel/babelify/issues"
   },
   "dependencies": {
-    "babel-core": "^5.0.0",
+    "babel-core": "^5.3.1",
     "object-assign": "^2.0.0",
     "through2": "^0.6.5"
   },
