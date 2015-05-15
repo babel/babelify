@@ -17,6 +17,7 @@ test('sourceMapRelative', function(t) {
 
   var b = browserify({
     entries: [__dirname + '/bundle/index.js'],
+    basedir: __dirname,
     debug: true
   });
 
