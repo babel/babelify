@@ -87,6 +87,8 @@ browserify().transform(babelify.configure({
 $ browserify -d -e script.js -t [ babelify --extensions .babel ]
 ```
 
+**NOTE:** Keep in mind that to get browserify to find files with extensions it doesn't include by default, you may also need to configure them there. For example, to have `require('./script')` in a browserified file resolve to a `./script.babel` file, you'd need to configure browserify to also look for the `.babel` extension. See the [`extensions` option](https://github.com/substack/node-browserify#browserifyfiles--opts) documentation.
+
 #### Relative source maps
 
 Browserify passes an absolute path so there's no way to determine what folder
