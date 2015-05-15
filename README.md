@@ -30,6 +30,8 @@ browserify({ debug: true })
 
 #### [Options](https://babeljs.io/docs/usage/options)
 
+Selected options are discussed below. See the [babel docs](https://babeljs.io/docs/usage/options) for the complete list.
+
 ```javascript
 browserify().transform(babelify.configure({
   blacklist: ["regenerator"]
