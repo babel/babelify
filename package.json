@@ -3,6 +3,7 @@
   "description": "Babel browserify transform",
   "version": "6.1.0",
   "author": "Sebastian McKenzie <sebmck@gmail.com>",
+  "license": "MIT",
   "homepage": "https://github.com/babel/babelify",
   "repository": {
     "type": "git",
