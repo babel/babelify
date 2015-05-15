@@ -20,15 +20,16 @@
 var fs = require("fs");
 var browserify = require("browserify");
 var babelify = require("babelify");
-browserify({ debug: true })
+browserify("./script.js", { debug: true })
   .transform(babelify)
-  .require("./script.js", { entry: true })
   .bundle()
   .on("error", function (err) { console.log("Error : " + err.message); })
   .pipe(fs.createWriteStream("bundle.js"));
 ```
 
 #### [Options](https://babeljs.io/docs/usage/options)
+
+Selected options are discussed below. See the [babel docs](https://babeljs.io/docs/usage/options) for the complete list.
 
 ```javascript
 browserify().transform(babelify.configure({
@@ -84,6 +85,8 @@ browserify().transform(babelify.configure({
 ```sh
 $ browserify -d -e script.js -t [ babelify --extensions .babel ]
 ```
+
+**NOTE:** Keep in mind that to get browserify to find files with extensions it doesn't include by default, you may also need to configure them there. For example, to have `require('./script')` in a browserified file resolve to a `./script.babel` file, you'd need to configure browserify to also look for the `.babel` extension. See the [`extensions` option](https://github.com/substack/node-browserify#browserifyfiles--opts) documentation.
 
 #### Relative source maps
 
