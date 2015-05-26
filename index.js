@@ -13,9 +13,14 @@ browserify.configure = function (opts) {
   var sourceMapRelative = opts.sourceMapRelative;
   if (opts.sourceMap !== false) opts.sourceMap = "inline";
 
+  // babelify specific options
   delete opts.sourceMapRelative;
   delete opts.extensions;
   delete opts.filename;
+
+  // browserify specific options
+  delete opts._flags;
+  delete opts.basedir;
   delete opts.global;
 
   return function (filename) {
