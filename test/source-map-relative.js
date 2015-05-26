@@ -6,7 +6,9 @@ var babelify = require('../');
 
 var sources = [
   'bundle/index.js',
-  'bundle/a.js'
+  'bundle/a.js',
+  'bundle/b.js',
+  'bundle/c.js'
 ].reduce(function(acc, file) {
   acc[file] = fs.readFileSync(__dirname + '/' + file, 'utf8');
   return acc;
@@ -33,14 +35,15 @@ test('sourceMapRelative', function(t) {
       .fromSource(src.toString())
       .toObject();
 
-    // basically exclude the prelude
-    var aSources = {};
-    sm.sources.forEach(function(sourceFile, idx) {
-      if (sources[sourceFile]) {
-        aSources[sourceFile] = sm.sourcesContent[idx];
-      }
-    });
+    // remove the prelude
+    sm.sources.shift();
+    sm.sourcesContent.shift();
+        
+    var aSources = sm.sources.reduce(function(acc, sourceFile, idx) {
+      acc[sourceFile] = sm.sourcesContent[idx];
+      return acc;
+    }, {});
 
-    t.same(aSources, sources);
+    t.match(aSources, sources);
   });
 });

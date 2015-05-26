@@ -5,17 +5,19 @@ var test = require('tap').test;
 var babelify = require('../');
 
 var sources = [
-  __dirname + '/bundle/index.js',
-  __dirname + '/bundle/a.js',
-  __dirname + '/bundle/b.js',
-  __dirname + '/bundle/c.js'
+  'bundle/index.js',
+  'bundle/a.js',
+  'bundle/b.js',
+  'bundle/c.js'
 ].reduce(function(acc, file) {
-  acc[file] = fs.readFileSync(file, 'utf8');
+  acc[file] = fs.readFileSync(__dirname + '/' + file, 'utf8');
   return acc;
 }, {});
 
-test('sourceMap', function(t) {
+test('sourceMapRelative', function(t) {
   t.plan(2);
+
+  process.chdir(__dirname);
 
   var b = browserify({
     entries: [__dirname + '/bundle/index.js'],
@@ -23,10 +25,11 @@ test('sourceMap', function(t) {
   });
 
   b.transform(babelify.configure({
-    sourceMap: true
+    sourceMap: true,
+    sourceMapRelative: __dirname
   }));
 
-  b.bundle(function (err, src) {
+  b.bundle(function(err, src) {
     t.error(err);
 
     var sm = convert
@@ -36,7 +39,7 @@ test('sourceMap', function(t) {
     // remove the prelude
     sm.sources.shift();
     sm.sourcesContent.shift();
-        
+
     var aSources = sm.sources.reduce(function(acc, sourceFile, idx) {
       acc[sourceFile] = sm.sourcesContent[idx];
       return acc;
