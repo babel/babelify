@@ -2,10 +2,22 @@ var through = require("through2");
 var assign  = require("object-assign");
 var babel   = require("babel-core");
 var path    = require("path");
+var cache   = {};
 
 var browserify = module.exports = function (filename, opts) {
   return browserify.configure(opts)(filename);
 };
+
+function hashCode(str) {
+  var hash = 0, i, chr, len;
+  if (str.length == 0) return hash;
+  for (i = 0, len = str.length; i < len; i++) {
+    chr   = str.charCodeAt(i);
+    hash  = ((hash << 5) - hash) + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash;
+}
 
 browserify.configure = function (opts) {
   opts = assign({}, opts);
@@ -40,9 +52,25 @@ browserify.configure = function (opts) {
     };
 
     var end = function (callback) {
+      var cached, code, newHash;
+
       opts.filename = filename;
       try {
-        this.push(babel.transform(data, opts).code);
+        cached = cache[filename];
+        newHash = hashCode(data);
+
+        if (cached && cached.hash == newHash){
+          code = cached.code;
+        }else{
+          code = babel.transform(data, opts).code;
+          cache[filename] = {
+            code:code,
+            hash : newHash
+          }
+        }
+
+        this.push(code);
+
       } catch(err) {
         this.emit("error", err);
       }
