@@ -2,22 +2,12 @@ var through = require("through2");
 var assign  = require("object-assign");
 var babel   = require("babel-core");
 var path    = require("path");
+var crypto  = require("crypto");
 var cache   = {};
 
 var browserify = module.exports = function (filename, opts) {
   return browserify.configure(opts)(filename);
 };
-
-function hashCode(str) {
-  var hash = 0, i, chr, len;
-  if (str.length == 0) return hash;
-  for (i = 0, len = str.length; i < len; i++) {
-    chr   = str.charCodeAt(i);
-    hash  = ((hash << 5) - hash) + chr;
-    hash |= 0; // Convert to 32bit integer
-  }
-  return hash;
-}
 
 browserify.configure = function (opts) {
   opts = assign({}, opts);
@@ -57,7 +47,7 @@ browserify.configure = function (opts) {
       opts.filename = filename;
       try {
         cached = cache[filename];
-        newHash = hashCode(data);
+        newHash = crypto.createHash("md5").update(data).digest("hex");
 
         if (cached && cached.hash == newHash){
           code = cached.code;
