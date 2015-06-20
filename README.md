@@ -76,17 +76,22 @@ You can change this by passing an array of extensions.
 **NOTE:** This will override the default ones so if you want to use any of them
 you have to add them back.
 
+**NOTE:** Browserify only finds required `.js` and `.json` files by default. You will
+also need to add the `--extension=.ext` option to browserify in order to `require()`
+or `import` these files without specifying the extension. For example, to have
+`require('./script')` in a browserified file resolve to a `./script.babel` file, you'd
+need to configure browserify to also look for the `.babel` extension.
+See the [`extensions` option](https://github.com/substack/node-browserify#browserifyfiles--opts) documentation.
+
 ```javascript
-browserify().transform(babelify.configure({
+browserify({ extensions: [".babel"] }).transform(babelify.configure({
   extensions: [".babel"]
 }))
 ```
 
 ```sh
-$ browserify -d -e script.js -t [ babelify --extensions .babel ]
+$ browserify -d -e script.js --extensions=.babel -t [ babelify --extensions .babel ]
 ```
-
-**NOTE:** Keep in mind that to get browserify to find files with extensions it doesn't include by default, you may also need to configure them there. For example, to have `require('./script')` in a browserified file resolve to a `./script.babel` file, you'd need to configure browserify to also look for the `.babel` extension. See the [`extensions` option](https://github.com/substack/node-browserify#browserifyfiles--opts) documentation.
 
 #### Relative source maps
 
