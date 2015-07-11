@@ -45,6 +45,7 @@ browserify.configure = function (opts) {
         this.push(babel.transform(data, opts).code);
       } catch(err) {
         this.emit("error", err);
+        return;
       }
       callback();
     };
