@@ -1,7 +1,7 @@
-var through = require("through2");
-var assign  = require("object-assign");
-var babel   = require("babel-core");
-var path    = require("path");
+var assign = require("object-assign");
+var stream = require("stream");
+var babel  = require("babel-core");
+var path   = require("path");
 
 var browserify = module.exports = function (filename, opts) {
   return browserify.configure(opts)(filename);
@@ -25,21 +25,23 @@ browserify.configure = function (opts) {
 
   return function (filename) {
     if (!babel.canCompile(filename, extensions)) {
-      return through();
+      return stream.PassThrough();
     }
 
     if (sourceMapRelative) {
       filename = path.relative(sourceMapRelative, filename);
     }
 
+    var s = new stream.Transform();
+
     var data = "";
 
-    var write = function (buf, enc, callback) {
+    s._transform = function (buf, enc, callback) {
       data += buf;
       callback();
     };
 
-    var end = function (callback) {
+    s._flush = function (callback) {
       opts.filename = filename;
       try {
         this.push(babel.transform(data, opts).code);
@@ -50,6 +52,6 @@ browserify.configure = function (opts) {
       callback();
     };
 
-    return through(write, end);
+    return s;
   };
 };
