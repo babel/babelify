@@ -2,12 +2,38 @@ var assign = require("object-assign");
 var stream = require("stream");
 var babel  = require("babel-core");
 var path   = require("path");
+var util   = require("util");
 
-var browserify = module.exports = function (filename, opts) {
-  return browserify.configure(opts)(filename);
+module.exports = Babelify;
+util.inherits(Babelify, stream.Transform);
+
+function Babelify(filename, opts) {
+  if (!(this instanceof Babelify)) {
+    return Babelify.configure(opts)(filename);
+  }
+
+  stream.Transform.call(this);
+  this._data = "";
+  this._opts = assign({filename: filename}, opts);
+}
+
+Babelify.prototype._transform = function (buf, enc, callback) {
+  this._data += buf;
+  callback();
 };
 
-browserify.configure = function (opts) {
+Babelify.prototype._flush = function (callback) {
+  try {
+    var code = babel.transform(this._data, this._opts).code;
+    this.push(code);
+  } catch(err) {
+    this.emit("error", err);
+    return;
+  }
+  callback();
+};
+
+Babelify.configure = function (opts) {
   opts = assign({}, opts);
   var extensions = opts.extensions ? babel.util.arrayify(opts.extensions) : null;
   var sourceMapRelative = opts.sourceMapRelative;
@@ -32,26 +58,6 @@ browserify.configure = function (opts) {
       filename = path.relative(sourceMapRelative, filename);
     }
 
-    var s = new stream.Transform();
-
-    var data = "";
-
-    s._transform = function (buf, enc, callback) {
-      data += buf;
-      callback();
-    };
-
-    s._flush = function (callback) {
-      opts.filename = filename;
-      try {
-        this.push(babel.transform(data, opts).code);
-      } catch(err) {
-        this.emit("error", err);
-        return;
-      }
-      callback();
-    };
-
-    return s;
+    return new Babelify(filename, opts);
   };
 };
