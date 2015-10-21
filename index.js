@@ -14,6 +14,7 @@ function Babelify(filename, opts) {
 
   stream.Transform.call(this);
   this._data = "";
+  this._filename = filename;
   this._opts = assign({filename: filename}, opts);
 }
 
@@ -24,7 +25,9 @@ Babelify.prototype._transform = function (buf, enc, callback) {
 
 Babelify.prototype._flush = function (callback) {
   try {
-    var code = babel.transform(this._data, this._opts).code;
+    var result = babel.transform(this._data, this._opts);
+    this.emit("babelify", result, this._filename);
+    var code = result.code;
     this.push(code);
   } catch(err) {
     this.emit("error", err);

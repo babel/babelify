@@ -14,12 +14,12 @@
   },
   "dependencies": {
     "babel-core": "^5.0.0",
-    "object-assign": "^3.0.0"
+    "object-assign": "^4.0.0"
   },
   "devDependencies": {
     "browserify": "^11.0.1",
     "convert-source-map": "^1.1.0",
-    "tap": "^1.0.2"
+    "tap": "^2.1.1"
   },
   "scripts": {
     "test": "tap test/*.js"
