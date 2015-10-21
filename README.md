@@ -133,6 +133,25 @@ a browserify-only package this may alleviate the necessity to have
 require("babelify/polyfill");
 ```
 
+#### Babel result: metadata and others
+
+Babelify emits a `babelify` event with Babel's full result object as the first
+argument, and the filename as the second. Browserify doesn't pass-through the
+events emitted by a transform, so it's necessary to get a reference to the
+transform instance before you can attach a listener for the event:
+
+```js
+var b = browserify().transform(babelify);
+
+b.on('transform', function(tr) {
+  if (tr instanceof babelify) {
+    tr.once('babelify', function(result, filename) {
+      result; // => { code, map, ast, metadata }
+    });
+  }
+});
+```
+
 ## FAQ
 
 ### Why aren't files in `node_modules` being transformed?
