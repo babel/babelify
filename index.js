@@ -53,7 +53,7 @@ Babelify.configure = function (opts) {
   delete opts.global;
 
   return function (filename) {
-    if (!babel.canCompile(filename, extensions)) {
+    if (!babel.util.canCompile(filename, extensions)) {
       return stream.PassThrough();
     }
 
