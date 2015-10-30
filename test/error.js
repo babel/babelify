@@ -8,7 +8,8 @@ test('emits error', function(t) {
   var b = browserify(__dirname + '/bundle/index.js');
 
   b.transform(babelify.configure({
-    whitelist: ['validation.undeclaredVariableCheck']
+    presets: ['es2015'],
+    plugins: ['undeclared-variables-check']
   }));
 
   b.bundle(function (err, src) {

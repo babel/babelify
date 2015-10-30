@@ -24,8 +24,8 @@ test('sourceMapRelative', function(t) {
   });
 
   b.transform(babelify.configure({
-    sourceMap: true,
-    sourceMapRelative: __dirname
+    presets: ['es2015'],
+    sourceMap: true
   }));
 
   b.bundle(function(err, src) {
@@ -38,7 +38,7 @@ test('sourceMapRelative', function(t) {
     // remove the prelude
     sm.sources.shift();
     sm.sourcesContent.shift();
-        
+    
     var aSources = sm.sources.reduce(function(acc, sourceFile, idx) {
       acc[sourceFile] = sm.sourcesContent[idx];
       return acc;
