@@ -33,39 +33,12 @@ Selected options are discussed below. See the [babel docs](https://babeljs.io/do
 
 ```javascript
 browserify().transform(babelify.configure({
-  blacklist: ["regenerator"]
+  presets: ["es2015"]
 }))
 ```
 
 ```sh
-$ browserify -d -e script.js -t [ babelify --blacklist regenerator ]
-```
-
-#### Enable Experimental Transforms
-
-By default Babel's [experimental transforms](http://babeljs.io/docs/usage/transformers/#es7-experimental-)
-are disabled. You can turn them on individually by passing `optional` as a configuration option.
-
-```javascript
-browserify().transform(babelify.configure({
-  optional: ["es7.asyncFunctions"]
-}))
-```
-
-```sh
-$ browserify -d -e script.js -t [ babelify --optional es7.asyncFunctions ]
-```
-
-Alternatively, you can enable an entire [TC39 category](http://babeljs.io/docs/usage/experimental/) of experimental ES7 features via the `stage` configuration option.
-
-```javascript
-browserify().transform(babelify.configure({
-  stage: 0
-}))
-```
-
-```sh
-$ browserify -d -e script.js -t [ babelify --stage 0 ]
+$ browserify -d -e script.js -t [ babelify --presets es2015 ]
 ```
 
 #### Customising extensions
@@ -122,17 +95,6 @@ browserify().transform(babelify.configure({
 $ browserify -d -e script.js -t [ babelify --ignore regex --only my_es6_folder ]
 ```
 
-#### ES6 Polyfill
-
-As a convenience, the babelify polyfill is exposed in babelify. If you've got
-a browserify-only package this may alleviate the necessity to have
-*both* babel & babelify installed.
-
-```javascript
-// In browser code
-require("babelify/polyfill");
-```
-
 #### Babel result: metadata and others
 
 Babelify emits a `babelify` event with Babel's full result object as the first
@@ -172,7 +134,7 @@ specify options then you can use:
 ```json
 {
   "browserify": {
-    "transform": [["babelify", { "optional": ["es7.asyncFunctions"] }]]
+    "transform": [["babelify", { "presets": ["es2015"] }]]
   }
 }
 ```
