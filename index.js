@@ -48,6 +48,7 @@ Babelify.configure = function (opts) {
   delete opts.filename;
 
   // browserify specific options
+  delete opts._;
   delete opts._flags;
   delete opts.basedir;
   delete opts.global;
