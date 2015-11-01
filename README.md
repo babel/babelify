@@ -41,6 +41,8 @@ browserify().transform(babelify.configure({
 $ browserify -d -e script.js -t [ babelify --presets es2015 ]
 ```
 
+Presets need to be installed as a separate module. For example, the above would need `babel-preset-es2015` installed from NPM.
+
 #### Customising extensions
 
 By default all files with the extensions `.js`, `.es`, `.es6` and `.jsx` are compiled.
