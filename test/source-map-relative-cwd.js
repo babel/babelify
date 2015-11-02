@@ -25,8 +25,7 @@ test('sourceMapRelative', function(t) {
   });
 
   b.transform(babelify.configure({
-    presets: ['es2015'],
-    sourceMap: true
+    presets: ['es2015']
   }));
 
   b.bundle(function(err, src) {
