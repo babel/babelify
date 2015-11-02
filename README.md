@@ -1,67 +1,110 @@
-# babelify
+# babelify [![Build Status](https://travis-ci.org/babel/babelify.svg?branch=master)](https://travis-ci.org/babel/babelify)
 
-[Babel](https://github.com/babel/babel) [browserify](https://github.com/substack/node-browserify) transform
+[Babel](https://github.com/babel/babel) [browserify](https://github.com/substack/node-browserify) transform.
 
-[![Build Status](https://travis-ci.org/babel/babelify.svg?branch=master)](https://travis-ci.org/babel/babelify)
+As of [Babel 6.0.0](http://babeljs.io/blog/2015/10/29/6.0.0/) there are **no plugins included by default**. For babelify to be useful, you must also include some [presets](http://babeljs.io/docs/plugins/#presets) and/or [plugins](http://babeljs.io/docs/plugins/#transform).
 
 ## Installation
 
-    $ npm install --save-dev babelify
+```sh
+$ npm install --save-dev babelify
+```
 
 ## Usage
 
 ### CLI
 
-    $ browserify script.js -t babelify --outfile bundle.js
+```sh
+$ browserify script.js -o bundle.js \
+  -t [ babelify --presets [ es2015 react ] ]
+```
 
 ### Node
 
 ```javascript
 var fs = require("fs");
 var browserify = require("browserify");
-var babelify = require("babelify");
-browserify("./script.js", { debug: true })
-  .transform(babelify)
+browserify("./script.js")
+  .transform("babelify", {presets: ["es2015", "react"]})
   .bundle()
-  .on("error", function (err) { console.log("Error : " + err.message); })
   .pipe(fs.createWriteStream("bundle.js"));
 ```
 
-#### [Options](https://babeljs.io/docs/usage/options)
-
-Selected options are discussed below. See the [babel docs](https://babeljs.io/docs/usage/options) for the complete list.
-
-```javascript
-browserify().transform(babelify.configure({
-  presets: ["es2015"]
-}))
-```
+**NOTE:** [Presets and plugins](http://babeljs.io/docs/plugins/) need to be installed as separate modules. For the above examples to work, you'd need to also install [`babel-preset-es2015`](https://www.npmjs.com/package/babel-preset-es2015) and [`babel-preset-react`](https://www.npmjs.com/package/babel-preset-react):
 
 ```sh
-$ browserify -d -e script.js -t [ babelify --presets es2015 ]
+$ npm install --save-dev babel-preset-es2015 babel-preset-react
 ```
 
-Presets need to be installed as a separate module. For example, the above would need `babel-preset-es2015` installed from NPM.
+### Options
 
-#### Customising extensions
+Selected options are discussed below. See the [babel](http://babeljs.io/) docs for the complete list of [options](http://babeljs.io/docs/usage/options/).
 
-By default all files with the extensions `.js`, `.es`, `.es6` and `.jsx` are compiled.
-You can change this by passing an array of extensions.
+Options may be passed in via standard [browserify](https://github.com/substack/node-browserify#btransformtr-opts) ways:
+
+```sh
+$ browserify -t [ babelify --presets [ es2015 react ] ]
+```
+
+```js
+browserify().transform("babelify", {presets: ["es2015", "react"]});
+```
+
+```js
+var babelify = require("babelify");
+browserify().transform(babelify, {presets: ["es2015", "react"]});
+```
+
+Or, with the `configure` method:
+
+```js
+browserify().transform(babelify.configure({
+  presets: ["es2015", "react"]
+}));
+```
+
+#### Customizing extensions
+
+By default, all files with the extensions `.js`, `.es`, `.es6` and `.jsx` are compiled. You can change this by passing an array of extensions.
 
 **NOTE:** This will override the default ones so if you want to use any of them
 you have to add them back.
 
-```javascript
-browserify().transform(babelify.configure({
-  extensions: [".babel"]
-}))
+```js
+browserify().transform("babelify", {extensions: [".babel"]});
 ```
 
 ```sh
-$ browserify -d -e script.js -t [ babelify --extensions .babel ]
+$ browserify -t [ babelify --extensions .babel ]
 ```
 
-**NOTE:** Keep in mind that to get browserify to find files with extensions it doesn't include by default, you may also need to configure them there. For example, to have `require('./script')` in a browserified file resolve to a `./script.babel` file, you'd need to configure browserify to also look for the `.babel` extension. See the [`extensions` option](https://github.com/substack/node-browserify#browserifyfiles--opts) documentation.
+Now you can use:
+
+```js
+import NavBar from "nav-bar.babel";
+var Panels = require("panels.babel");
+```
+
+**NOTE:** By default, Browserify will only lookup `.js` and `.json` files when the extension is ommited (like node's `require`). To lookup additional extensions, use browserify's [`extensions` option](https://github.com/substack/node-browserify#browserifyfiles--opts).
+
+```js
+browserify({
+  extensions: [".babel"]
+}).transform("babelify", {
+  extensions: [".babel"]
+});
+```
+
+```sh
+$ browserify --extensions=.babel -t [ babelify --extensions .babel ]
+```
+
+Now you can omit the extension and compile `.babel` files:
+
+```js
+import NavBar from "nav-bar";
+var Panels = require("panels");
+```
 
 #### Relative source maps
 
@@ -69,35 +112,35 @@ Browserify passes an absolute path so there's no way to determine what folder
 it's relative to. You can pass a relative path that'll be removed from the
 absolute path with the `sourceMapRelative` option.
 
-```javascript
-browserify().transform(babelify.configure({
+```js
+browserify().transform("babelify", {
   sourceMapRelative: "/Users/sebastian/Projects/my-cool-website/assets"
-}))
+});
 ```
 
 ```sh
-$ browserify -d -e script.js -t [ babelify --sourceMapRelative . ]
+$ browserify -t [ babelify --sourceMapRelative . ]
 ```
 
 #### Additional options
 
 ```javascript
 browserify().transform(babelify.configure({
-  // Optional ignore regex - if any filenames **do** match this regex then they
-  // aren't compiled
+  // Optional ignore regex - if any filenames **do** match this regex then
+  // they aren't compiled
   ignore: /regex/,
 
-  // Optional only regex - if any filenames **don't** match this regex then they
-  // aren't compiled
+  // Optional only regex - if any filenames **don't** match this regex
+  // then they aren't compiled
   only: /my_es6_folder/
 }))
 ```
 
 ```sh
-$ browserify -d -e script.js -t [ babelify --ignore regex --only my_es6_folder ]
+$ browserify -t [ babelify --ignore regex --only my_es6_folder ]
 ```
 
-#### Babel result: metadata and others
+#### Babel result (metadata and others)
 
 Babelify emits a `babelify` event with Babel's full result object as the first
 argument, and the filename as the second. Browserify doesn't pass-through the
@@ -107,9 +150,9 @@ transform instance before you can attach a listener for the event:
 ```js
 var b = browserify().transform(babelify);
 
-b.on('transform', function(tr) {
+b.on("transform", function(tr) {
   if (tr instanceof babelify) {
-    tr.once('babelify', function(result, filename) {
+    tr.once("babelify", function(result, filename) {
       result; // => { code, map, ast, metadata }
     });
   }
@@ -120,7 +163,9 @@ b.on('transform', function(tr) {
 
 ### Why aren't files in `node_modules` being transformed?
 
-This is default browserify behaviour and **can not** be overriden. A possible solution is to add:
+This is the default browserify behavior.
+
+A possible solution is to add:
 
 ```json
 {
@@ -139,4 +184,37 @@ specify options then you can use:
     "transform": [["babelify", { "presets": ["es2015"] }]]
   }
 }
+```
+
+Another solution (proceed with caution!) is to run babelify as a [global](https://github.com/substack/node-browserify#btransformtr-opts) transform. Use the babel [`ignore` option](http://babeljs.io/docs/usage/options/) to narrow the number of files transformed:
+
+```js
+browserify().transform(babelify, {
+  global: true,
+  ignore: /\/node_modules\/(?!app\/)/
+});
+```
+
+The above example will transform all files except those in the `node_modules` directory that are not in `node_modules/app`.
+
+### Why am I not getting source maps?
+
+To use source maps, enable them in browserify with the [`debug`](https://github.com/substack/node-browserify#browserifyfiles--opts) option:
+
+```js
+browserify({debug: true}).transform("babelify");
+```
+
+```sh
+$ browserify -d -t [ babelify ]
+```
+
+If you want the source maps to be of the post-transpiled code, then leave `debug` on, but turn off babelify's `sourceMaps`:
+
+```js
+browserify({debug: true}).transform("babelify", {sourceMaps: false});
+```
+
+```sh
+$ browserify -d -t [ babelify --no-sourceMaps ]
 ```

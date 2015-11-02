@@ -40,7 +40,7 @@ Babelify.configure = function (opts) {
   opts = assign({}, opts);
   var extensions = opts.extensions ? babel.util.arrayify(opts.extensions) : null;
   var sourceMapRelative = opts.sourceMapRelative;
-  if (opts.sourceMap !== false) opts.sourceMap = "inline";
+  if (opts.sourceMaps !== false) opts.sourceMaps = "inline";
 
   // babelify specific options
   delete opts.sourceMapRelative;
@@ -48,10 +48,17 @@ Babelify.configure = function (opts) {
   delete opts.filename;
 
   // browserify specific options
-  delete opts._;
   delete opts._flags;
   delete opts.basedir;
   delete opts.global;
+
+  // browserify cli options
+  delete opts._;
+  // "--opt [ a b ]" and "--opt a --opt b" are allowed:
+  if (opts.ignore && opts.ignore._) opts.ignore = opts.ignore._;
+  if (opts.only && opts.only._) opts.only = opts.only._;
+  if (opts.plugins && opts.plugins._) opts.plugins = opts.plugins._;
+  if (opts.presets && opts.presets._) opts.presets = opts.presets._;
 
   return function (filename) {
     if (!babel.util.canCompile(filename, extensions)) {
