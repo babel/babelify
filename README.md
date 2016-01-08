@@ -15,8 +15,7 @@ $ npm install --save-dev babelify
 ### CLI
 
 ```sh
-$ browserify script.js -o bundle.js \
-  -t [ babelify --presets [ es2015 react ] ]
+$ browserify script.js -o bundle.js -t babelify --presets [es2015,react]
 ```
 
 ### Node
