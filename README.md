@@ -16,7 +16,7 @@ $ npm install --save-dev babelify
 
 ```sh
 $ browserify script.js -o bundle.js \
-  -t [ babelify --presets [ es2015 react ] ]
+  -t [ babelify --presets [ es2015 react stage-0 ] ]
 ```
 
 ### Node
@@ -25,7 +25,7 @@ $ browserify script.js -o bundle.js \
 var fs = require("fs");
 var browserify = require("browserify");
 browserify("./script.js")
-  .transform("babelify", {presets: ["es2015", "react"]})
+  .transform("babelify", {presets: ["es2015", "react", "stage-0"]})
   .bundle()
   .pipe(fs.createWriteStream("bundle.js"));
 ```
@@ -33,7 +33,7 @@ browserify("./script.js")
 **NOTE:** [Presets and plugins](http://babeljs.io/docs/plugins/) need to be installed as separate modules. For the above examples to work, you'd need to also install [`babel-preset-es2015`](https://www.npmjs.com/package/babel-preset-es2015) and [`babel-preset-react`](https://www.npmjs.com/package/babel-preset-react):
 
 ```sh
-$ npm install --save-dev babel-preset-es2015 babel-preset-react
+$ npm install --save-dev babel-preset-es2015 babel-preset-react babel-preset-stage-0
 ```
 
 ### Options
