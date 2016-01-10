@@ -36,7 +36,7 @@ browserify("./script.js")
 $ npm install --save-dev babel-preset-es2015 babel-preset-react
 ```
 
-**NOTE:** Some UI libraries such as material-ui is using experimental features, such as:
+**NOTE:** Some UI libraries such as material-ui (v0.13.4) is using experimental features, such as:
 
     class ExampleComponent {
       handleToggle = () => this.setState({open: !this.state.open});
