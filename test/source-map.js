@@ -15,7 +15,7 @@ var sources = [
 }, {});
 
 // TODO: skipping until I figure out what's going on with paths in Babel 6.0
-test('sourceMap', {skip: true}, function(t) {
+test('sourceMap', function(t) {
   t.plan(2);
 
   var b = browserify({
@@ -24,7 +24,7 @@ test('sourceMap', {skip: true}, function(t) {
   });
 
   b.transform(babelify.configure({
-    sourceMap: true
+    presets: ['es2015']
   }));
 
   b.bundle(function (err, src) {
@@ -37,7 +37,7 @@ test('sourceMap', {skip: true}, function(t) {
     // remove the prelude
     sm.sources.shift();
     sm.sourcesContent.shift();
-        
+
     var aSources = sm.sources.reduce(function(acc, sourceFile, idx) {
       acc[sourceFile] = sm.sourcesContent[idx];
       return acc;

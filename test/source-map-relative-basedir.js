@@ -24,7 +24,8 @@ test('sourceMapRelative', function(t) {
   });
 
   b.transform(babelify.configure({
-    presets: ['es2015']
+    presets: ['es2015'],
+    sourceMapRelative: __dirname
   }));
 
   b.bundle(function(err, src) {
