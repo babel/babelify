@@ -1,34 +1,35 @@
 var browserify = require('browserify');
 var convert = require('convert-source-map');
+var path = require('path');
 var fs = require('fs');
+var zipObject = require('lodash.zipobject');
 var test = require('tap').test;
 var babelify = require('../');
 
 var sources = [
-  'bundle/index.js',
-  'bundle/a.js',
-  'bundle/b.js',
-  'bundle/c.js'
+  path.join(__dirname, 'bundle/index.js'),
+  path.join(__dirname, 'bundle/a.js'),
+  path.join(__dirname, 'bundle/b.js'),
+  path.join(__dirname, 'bundle/c.js')
 ].reduce(function(acc, file) {
-  acc[file] = fs.readFileSync(__dirname + '/' + file, 'utf8');
+  acc[file] = fs.readFileSync(file, 'utf8');
   return acc;
 }, {});
 
-test('sourceMapRelative', function(t) {
+test('sourceMapsAbsolute', function(t) {
   t.plan(2);
 
-  process.chdir(__dirname);
-
   var b = browserify({
-    entries: [__dirname + '/bundle/index.js'],
+    entries: [path.join(__dirname, 'bundle/index.js')],
     debug: true
   });
 
   b.transform(babelify.configure({
-    presets: ['es2015']
+    presets: ['es2015'],
+    sourceMapsAbsolute: true
   }));
 
-  b.bundle(function(err, src) {
+  b.bundle(function (err, src) {
     t.error(err);
 
     var sm = convert
@@ -39,11 +40,6 @@ test('sourceMapRelative', function(t) {
     sm.sources.shift();
     sm.sourcesContent.shift();
 
-    var aSources = sm.sources.reduce(function(acc, sourceFile, idx) {
-      acc[sourceFile] = sm.sourcesContent[idx];
-      return acc;
-    }, {});
-
-    t.match(aSources, sources);
+    t.match(zipObject(sm.sources, sm.sourcesContent), sources);
   });
 });

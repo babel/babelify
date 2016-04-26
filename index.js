@@ -1,7 +1,6 @@
 var assign = require("object-assign");
 var stream = require("stream");
 var babel  = require("babel-core");
-var path   = require("path");
 var util   = require("util");
 
 module.exports = Babelify;
@@ -39,13 +38,16 @@ Babelify.prototype._flush = function (callback) {
 Babelify.configure = function (opts) {
   opts = assign({}, opts);
   var extensions = opts.extensions ? babel.util.arrayify(opts.extensions) : null;
-  var sourceMapRelative = opts.sourceMapRelative;
+  var sourceMapsAbsolute = opts.sourceMapsAbsolute;
   if (opts.sourceMaps !== false) opts.sourceMaps = "inline";
 
   // babelify specific options
-  delete opts.sourceMapRelative;
+  delete opts.sourceMapsAbsolute;
   delete opts.extensions;
   delete opts.filename;
+
+  // babelify backwards-compat
+  delete opts.sourceMapRelative;
 
   // browserify specific options
   delete opts._flags;
@@ -65,10 +67,10 @@ Babelify.configure = function (opts) {
       return stream.PassThrough();
     }
 
-    if (sourceMapRelative) {
-      filename = path.relative(sourceMapRelative, filename);
-    }
+    var _opts = sourceMapsAbsolute
+      ? assign({sourceFileName: filename}, opts)
+      : opts;
 
-    return new Babelify(filename, opts);
+    return new Babelify(filename, _opts);
   };
 };

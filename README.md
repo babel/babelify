@@ -105,20 +105,18 @@ import NavBar from "nav-bar";
 var Panels = require("panels");
 ```
 
-#### Relative source maps
+#### Source maps
 
-Browserify passes an absolute path so there's no way to determine what folder
-it's relative to. You can pass a relative path that'll be removed from the
-absolute path with the `sourceMapRelative` option.
+By default, browserify sets the source map sources paths relative to the basedir (or to `process.cwd()` if not set). To make the sources paths absolute, set the `sourceMapsAbsolute` option on babelify:
 
 ```js
 browserify().transform("babelify", {
-  sourceMapRelative: "/Users/sebastian/Projects/my-cool-website/assets"
+  sourceMapsAbsolute: true
 });
 ```
 
 ```sh
-$ browserify -t [ babelify --sourceMapRelative . ]
+$ browserify -t [ babelify --sourceMapsAbsolute ]
 ```
 
 #### Additional options
