@@ -1,5 +1,6 @@
 var browserify = require('browserify');
 var test = require('tap').test;
+var path = require('path');
 var vm = require('vm');
 var babelify = require('../');
 
@@ -8,7 +9,7 @@ test('aaa', function (t) {
 
   var b = browserify();
 
-  b.require(__dirname + '/bundle/index.js', {expose: 'bundle'});
+  b.require(path.join(__dirname, 'bundle/index.js'), {expose: 'bundle'});
   b.transform([babelify, {presets: ['es2015']}]);
 
   b.bundle(function (err, src) {

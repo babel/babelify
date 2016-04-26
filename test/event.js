@@ -1,12 +1,13 @@
 var browserify = require('browserify');
+var path = require('path');
 var test = require('tap').test;
 var babelify = require('../');
 
 var files = [
-  __dirname + '/bundle/a.js',
-  __dirname + '/bundle/b.js',
-  __dirname + '/bundle/c.js',
-  __dirname + '/bundle/index.js'
+  path.join(__dirname, 'bundle/a.js'),
+  path.join(__dirname, 'bundle/b.js'),
+  path.join(__dirname, 'bundle/c.js'),
+  path.join(__dirname, 'bundle/index.js')
 ];
 
 test('event', function (t) {
@@ -14,7 +15,7 @@ test('event', function (t) {
 
   var babelified = [];
 
-  var b = browserify(__dirname + '/bundle/index.js');
+  var b = browserify(path.join(__dirname, 'bundle/index.js'));
   b.transform([babelify, {presets: ['es2015']}]);
 
   b.on('transform', function(tr) {
