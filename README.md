@@ -186,7 +186,7 @@ specify options then you can use:
 Another solution (proceed with caution!) is to run babelify as a [global](https://github.com/substack/node-browserify#btransformtr-opts) transform. Use the babel [`ignore` option](http://babeljs.io/docs/usage/options/) to narrow the number of files transformed:
 
 ```js
-browserify().transform(babelify, {
+browserify().transform("babelify", {
   global: true,
   ignore: /\/node_modules\/(?!app\/)/
 });
