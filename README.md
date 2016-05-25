@@ -192,7 +192,7 @@ browserify().transform("babelify", {
 });
 ```
 
-The above example will transform all files except those in the `node_modules` directory that are not in `node_modules/app`.
+The above example will result in a transform that also includes the `app` module in `node_modules`: the `global` flag transform all files, and the `ignore` regular expression then excludes all those in the `node_modules` directory *except* those that are in `node_modules/app` (since `?!` will match if the given suffix is absent).
 
 ### Why am I not getting source maps?
 
