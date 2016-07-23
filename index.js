@@ -40,7 +40,7 @@ Babelify.configure = function (opts) {
   opts = assign({}, opts);
   var extensions = opts.extensions ? babel.util.arrayify(opts.extensions) : null;
   var sourceMapRelative = opts.sourceMapRelative;
-  if (opts.sourceMap !== false) opts.sourceMap = "inline";
+  if (opts.sourceMaps !== false) opts.sourceMaps = "inline";
 
   // babelify specific options
   delete opts.sourceMapRelative;
