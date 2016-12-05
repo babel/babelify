@@ -35,6 +35,15 @@ browserify("./script.js")
 $ npm install --save-dev babel-preset-es2015 babel-preset-react
 ```
 
+**NOTE:** Some UI libraries such as material-ui (v0.13.4) is using experimental features, such as:
+
+    class ExampleComponent {
+      handleToggle = () => this.setState({open: !this.state.open});
+      // ...
+    }
+
+In such case you'd need to also install [`babel-preset-stage-0`](https://www.npmjs.com/package/babel-preset-stage-0) to make it work.
+
 ### Options
 
 Selected options are discussed below. See the [babel](http://babeljs.io/) docs for the complete list of [options](http://babeljs.io/docs/usage/options/).
