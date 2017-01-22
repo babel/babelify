@@ -70,11 +70,12 @@ Babelify.configure = function (opts) {
 
     var _opts = sourceMapsAbsolute
       ? assign({
-        sourceFileName: opts.sourceRoot ? path.relative(
-          opts.sourceRoot,
-          filename
-        )
-        : filename
+        sourceFileName: opts.sourceRoot
+          ? path.relative(
+            opts.sourceRoot,
+            filename
+          )
+          : filename
       }, opts)
       : opts;
 
@@ -83,11 +84,3 @@ Babelify.configure = function (opts) {
     return new Babelify(filename, _opts);
   };
 };
-
-
-opts.sourceFileName === undefined
-  ? path.relative(
-      opts.sourceRoot,
-      opts.filename
-    )
-  }
