@@ -2,6 +2,7 @@ var assign = require("object-assign");
 var stream = require("stream");
 var babel  = require("babel-core");
 var util   = require("util");
+var path   = require("path");
 
 module.exports = Babelify;
 util.inherits(Babelify, stream.Transform);
@@ -68,8 +69,17 @@ Babelify.configure = function (opts) {
     }
 
     var _opts = sourceMapsAbsolute
-      ? assign({sourceFileName: filename}, opts)
+      ? assign({
+        sourceFileName: opts.sourceRoot
+          ? path.relative(
+            opts.sourceRoot,
+            filename
+          )
+          : filename
+      }, opts)
       : opts;
+
+    delete _opts.sourceRoot
 
     return new Babelify(filename, _opts);
   };
