@@ -9,7 +9,7 @@ test('passes options via configure', function(t) {
   var b = browserify(path.join(__dirname, 'bundle/index.js'));
 
   b.transform(babelify.configure({
-    presets: ['es2015'],
+    presets: ['env'],
     plugins: ['transform-es3-property-literals']
   }));
 
@@ -26,7 +26,7 @@ test('passes options via browserify', function(t) {
   var b = browserify(path.join(__dirname, 'bundle/index.js'));
 
   b.transform(babelify, {
-    presets: ['es2015'],
+    presets: ['env'],
     plugins: ['transform-es3-property-literals']
   });
 
