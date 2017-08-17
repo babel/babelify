@@ -15,7 +15,7 @@ $ npm install --save-dev babelify
 ### CLI
 
 ```sh
-  $ browserify script.js -o bundle.js -t [ babelify --presets [ es2015 react ] ]
+  $ browserify script.js -o bundle.js -t [ babelify --presets [ env react ] ]
 ```
 
 ### Node
@@ -24,15 +24,15 @@ $ npm install --save-dev babelify
 var fs = require("fs");
 var browserify = require("browserify");
 browserify("./script.js")
-  .transform("babelify", {presets: ["es2015", "react"]})
+  .transform("babelify", {presets: ["env", "react"]})
   .bundle()
   .pipe(fs.createWriteStream("bundle.js"));
 ```
 
-**NOTE:** [Presets and plugins](http://babeljs.io/docs/plugins/) need to be installed as separate modules. For the above examples to work, you'd need to also install [`babel-preset-es2015`](https://www.npmjs.com/package/babel-preset-es2015) and [`babel-preset-react`](https://www.npmjs.com/package/babel-preset-react):
+**NOTE:** [Presets and plugins](http://babeljs.io/docs/plugins/) need to be installed as separate modules. For the above examples to work, you'd need to also install [`babel-preset-env`](https://www.npmjs.com/package/babel-preset-env) and [`babel-preset-react`](https://www.npmjs.com/package/babel-preset-react):
 
 ```sh
-$ npm install --save-dev babel-preset-es2015 babel-preset-react
+$ npm install --save-dev babel-preset-env babel-preset-react
 ```
 
 ### Options
@@ -42,23 +42,23 @@ Selected options are discussed below. See the [babel](http://babeljs.io/) docs f
 Options may be passed in via standard [browserify](https://github.com/substack/node-browserify#btransformtr-opts) ways:
 
 ```sh
-$ browserify -t [ babelify --presets [ es2015 react ] ]
+$ browserify -t [ babelify --presets [ env react ] ]
 ```
 
 ```js
-browserify().transform("babelify", {presets: ["es2015", "react"]});
+browserify().transform("babelify", {presets: ["env", "react"]});
 ```
 
 ```js
 var babelify = require("babelify");
-browserify().transform(babelify, {presets: ["es2015", "react"]});
+browserify().transform(babelify, {presets: ["env", "react"]});
 ```
 
 Or, with the `configure` method:
 
 ```js
 browserify().transform(babelify.configure({
-  presets: ["es2015", "react"]
+  presets: ["env", "react"]
 }));
 ```
 
@@ -178,7 +178,7 @@ specify options then you can use:
 ```json
 {
   "browserify": {
-    "transform": [["babelify", { "presets": ["es2015"] }]]
+    "transform": [["babelify", { "presets": ["env"] }]]
   }
 }
 ```
