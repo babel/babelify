@@ -1,7 +1,7 @@
 {
   "name": "babelify",
   "description": "Babel browserify transform",
-  "version": "7.3.2",
+  "version": "8.0.0",
   "author": "Sebastian McKenzie <sebmck@gmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/babel/babelify",
@@ -20,13 +20,13 @@
   "devDependencies": {
     "babel-plugin-transform-es3-property-literals": "next",
     "babel-plugin-transform-node-env-inline": "~0.2.0",
-    "babel-plugin-transform-react-display-name": "^6.0.14",
-    "babel-plugin-undeclared-variables-check": "^6.0.14",
+    "babel-plugin-transform-react-display-name": "next",
+    "babel-plugin-undeclared-variables-check": "^6.22.0",
     "babel-preset-env": "next",
-    "babel-preset-flow": "^6.23.0",
+    "babel-preset-flow": "next",
     "babel-preset-react": "next",
     "browserify": "^14.4.0",
-    "convert-source-map": "^1.1.0",
+    "convert-source-map": "^1.5.0",
     "lodash.zipobject": "^4.1.3",
     "path-is-absolute": "^1.0.0",
     "tap": "^10.7.2"
