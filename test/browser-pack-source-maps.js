@@ -22,7 +22,7 @@ test('browserify source maps (no basedir)', function(t) {
   });
 
   b.transform(babelify, {
-    presets: ['es2015'],
+    presets: ['env'],
     sourceMaps: false   // no intermediate source maps
   });
 
@@ -72,7 +72,7 @@ test('browserify source maps (with basedir)', function(t) {
   });
 
   b.transform(babelify, {
-    presets: ['es2015'],
+    presets: ['env'],
     sourceMaps: false   // no intermediate source maps
   });
 

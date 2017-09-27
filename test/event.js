@@ -16,7 +16,7 @@ test('event', function (t) {
   var babelified = [];
 
   var b = browserify(path.join(__dirname, 'bundle/index.js'));
-  b.transform([babelify, {presets: ['es2015']}]);
+  b.transform([babelify, {presets: ['env']}]);
 
   b.on('transform', function(tr) {
     if (tr instanceof babelify) {
