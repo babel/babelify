@@ -1,22 +1,9 @@
-var assign   = require("object-assign");
-var stream   = require("stream");
-var babel    = require("babel-core");
-var util     = require("util");
-var path     = require("path");
 var includes = require("lodash/includes");
-
-function arrayify(val, mapFn) {
-  if (!val) return [];
-  if (typeof val === "boolean") return arrayify([val], mapFn);
-  if (typeof val === "string") return arrayify(val.split(","), mapFn);
-
-  if (Array.isArray(val)) {
-    if (mapFn) val = val.map(mapFn);
-    return val;
-  }
-
-  return [val];
-}
+var assign   = require("object-assign");
+var babel    = require("babel-core");
+var stream   = require("stream");
+var path     = require("path");
+var util     = require("util");
 
 module.exports = Babelify;
 util.inherits(Babelify, stream.Transform);
@@ -52,7 +39,7 @@ Babelify.prototype._flush = function (callback) {
 
 Babelify.configure = function (opts) {
   opts = assign({}, opts);
-  var extensions = opts.extensions ? arrayify(opts.extensions) : babel.DEFAULT_EXTENSIONS;
+  var extensions = opts.extensions || babel.DEFAULT_EXTENSIONS;
   var sourceMapsAbsolute = opts.sourceMapsAbsolute;
   if (opts.sourceMaps !== false) opts.sourceMaps = "inline";
 
@@ -78,9 +65,7 @@ Babelify.configure = function (opts) {
   if (opts.presets && opts.presets._) opts.presets = opts.presets._;
 
   return function (filename) {
-    var extension = path.extname(filename);
-
-    if (!includes(extensions, extension)) {
+    if (!includes(extensions, path.extname(filename))) {
       return stream.PassThrough();
     }
 
