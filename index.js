@@ -1,4 +1,3 @@
-var assign = require("object-assign");
 var stream = require("stream");
 var babel  = require("babel-core");
 var util   = require("util");
@@ -14,7 +13,7 @@ function Babelify(filename, opts) {
   stream.Transform.call(this);
   this._data = "";
   this._filename = filename;
-  this._opts = assign({filename: filename}, opts);
+  this._opts = Object.assign({filename: filename}, opts);
 }
 
 Babelify.prototype._transform = function (buf, enc, callback) {
@@ -36,7 +35,7 @@ Babelify.prototype._flush = function (callback) {
 };
 
 Babelify.configure = function (opts) {
-  opts = assign({}, opts);
+  opts = Object.assign({}, opts);
   var extensions = opts.extensions ? babel.util.arrayify(opts.extensions) : null;
   var sourceMapsAbsolute = opts.sourceMapsAbsolute;
   if (opts.sourceMaps !== false) opts.sourceMaps = "inline";
@@ -68,7 +67,7 @@ Babelify.configure = function (opts) {
     }
 
     var _opts = sourceMapsAbsolute
-      ? assign({sourceFileName: filename}, opts)
+      ? Object.assign({sourceFileName: filename}, opts)
       : opts;
 
     return new Babelify(filename, _opts);
