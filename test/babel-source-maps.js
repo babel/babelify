@@ -3,13 +3,12 @@ var babel = require('babel-core');
 var convert = require('convert-source-map');
 var fs = require('fs');
 var path = require('path');
-var pathIsAbsolute = require('path-is-absolute');
 var test = require('tap').test;
 
 // Validate assumptions about babel's source maps.
 
 var sourceFile = path.join(__dirname, 'bundle/index.js');
-assert(pathIsAbsolute(sourceFile));
+assert(path.isAbsolute(sourceFile));
 
 var sourceSrc = fs.readFileSync(sourceFile, 'utf8');
 
