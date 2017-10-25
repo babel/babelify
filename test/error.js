@@ -9,7 +9,7 @@ test('emits error', function(t) {
   var b = browserify(path.join(__dirname, 'bundle/index.js'));
 
   b.transform(babelify.configure({
-    presets: ['es2015'],
+    presets: ['env'],
     plugins: ['undeclared-variables-check']
   }));
 

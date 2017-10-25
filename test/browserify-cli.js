@@ -11,7 +11,7 @@ test('browserify-cli no subargs', function (t) {
     '-r', path.join(__dirname, '/bundle/index.js') + ':bundle',
     '-t', '[',
       path.join(__dirname, '../'),
-      '--presets', 'es2015',
+      '--presets', 'env',
       '--plugins', 'transform-es3-property-literals',
     ']',
   ];
@@ -48,7 +48,7 @@ test('browserify-cli with subargs', function (t) {
     '-r', path.join(__dirname, '/bundle/react-flow.js') + ':reactFlow',
     '-t', '[',
       path.join(__dirname, '../'),
-      '--presets', '[', 'es2015', 'react', ']',
+      '--presets', '[', 'env', 'react', ']',
       '--plugins', '[',
         'transform-react-display-name',
         'transform-node-env-inline',
