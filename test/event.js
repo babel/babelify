@@ -11,7 +11,7 @@ var files = [
 ];
 
 test('event', function (t) {
-  t.plan(7);
+  t.plan(3);
 
   var babelified = [];
 
@@ -22,7 +22,6 @@ test('event', function (t) {
     if (tr instanceof babelify) {
       tr.once('babelify', function(result, filename) {
         babelified.push(filename);
-        t.type(result.metadata.usedHelpers, Array);
       });
     }
   });
