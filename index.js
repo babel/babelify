@@ -13,7 +13,7 @@ function Babelify(filename, opts) {
   stream.Transform.call(this);
   this._data = "";
   this._filename = filename;
-  this._babel = opts.babel || babel
+  this._babel = opts.babel
   delete opts.babel
   this._opts = Object.assign({filename: filename}, opts);
 }
@@ -25,7 +25,9 @@ Babelify.prototype._transform = function (buf, enc, callback) {
 
 Babelify.prototype._flush = function (callback) {
   try {
-    var result = this._babel.transform(this._data, this._opts);
+    var result = this._babel
+      ? this._babel.transform(this._data, this._opts)
+      : babel.transform(this._data, this._opts);
     this.emit("babelify", result, this._filename);
     var code = result.code;
     this.push(code);
