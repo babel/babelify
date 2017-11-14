@@ -215,3 +215,14 @@ browserify({debug: true}).transform("babelify", {sourceMaps: false});
 ```sh
 $ browserify -d -t [ babelify --no-sourceMaps ]
 ```
+
+### Can I use private/different babel package (like scoped babel 7)?
+
+Yes, just pass it along as `babel` option, you still need to install `babel-core <= 6` as babelify uses support functions that were removed on babel 7.
+
+```js
+browserify().transform("babelify", {
+  presets: ["@babel/preset-env"],
+  babel: require("@babel/core")
+});
+```
