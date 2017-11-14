@@ -1,6 +1,7 @@
 var stream = require("stream");
 var babel  = require("babel-core");
 var util   = require("util");
+var path   = require("path")
 
 module.exports = Babelify;
 util.inherits(Babelify, stream.Transform);
@@ -13,7 +14,7 @@ function Babelify(filename, opts) {
   stream.Transform.call(this);
   this._data = "";
   this._filename = filename;
-  this._babel = opts.babel
+  this._babel = opts.babel || babel
   delete opts.babel
   this._opts = Object.assign({filename: filename}, opts);
 }
@@ -25,9 +26,7 @@ Babelify.prototype._transform = function (buf, enc, callback) {
 
 Babelify.prototype._flush = function (callback) {
   try {
-    var result = this._babel
-      ? this._babel.transform(this._data, this._opts)
-      : babel.transform(this._data, this._opts);
+    var result = this._babel.transform(this._data, this._opts)
     this.emit("babelify", result, this._filename);
     var code = result.code;
     this.push(code);
@@ -40,7 +39,9 @@ Babelify.prototype._flush = function (callback) {
 
 Babelify.configure = function (opts) {
   opts = Object.assign({}, opts);
-  var extensions = opts.extensions ? babel.util.arrayify(opts.extensions) : null;
+  var extensions = opts.extensions 
+    ? [].concat(opts.extensions)
+    : babel.DEFAULT_EXTENSIONS || [ ".js", ".jsx", ".es6", ".es", ".babel" ];
   var sourceMapsAbsolute = opts.sourceMapsAbsolute;
   if (opts.sourceMaps !== false) opts.sourceMaps = "inline";
 
@@ -66,7 +67,8 @@ Babelify.configure = function (opts) {
   if (opts.presets && opts.presets._) opts.presets = opts.presets._;
 
   return function (filename) {
-    if (!babel.util.canCompile(filename, extensions)) {
+    var extname = path.extname(filename)
+    if (extensions.indexOf(function (ext) {return ext === extname}) > -1) {
       return stream.PassThrough();
     }
 
