@@ -7,6 +7,7 @@ module.exports = Babelify;
 util.inherits(Babelify, stream.Transform);
 
 function Babelify(filename, opts) {
+  opts = Object.assign({}, opts)
   if (!(this instanceof Babelify)) {
     return Babelify.configure(opts)(filename);
   }
