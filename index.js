@@ -69,7 +69,7 @@ Babelify.configure = function (opts) {
 
   return function (filename) {
     var extname = path.extname(filename)
-    if (extensions.indexOf(ext) === -1) {
+    if (extensions.indexOf(extname) === -1) {
       return stream.PassThrough();
     }
 
