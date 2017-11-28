@@ -13,9 +13,11 @@
     "url": "https://github.com/babel/babelify/issues"
   },
   "peerDependencies": {
-    "babel-core": "6 || 7 || ^7.0.0-alpha || ^7.0.0-beta || ^7.0.0-rc"
+    "babel-core": "6 || 7 || 7.x || ^7.0.0-alpha || ^7.0.0-beta || ^7.0.0-rc"
   },
   "devDependencies": {
+    "@babel/core": "^7.0.0-beta.32",
+    "@babel/preset-env": "^7.0.0-beta.32",
     "babel-core": "^6.0.14",
     "babel-plugin-transform-es3-property-literals": "^6.0.14",
     "babel-plugin-transform-node-env-inline": "^6.0.14",

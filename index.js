@@ -1,11 +1,13 @@
 var stream = require("stream");
 var babel  = require("babel-core");
 var util   = require("util");
+var path   = require("path")
 
 module.exports = Babelify;
 util.inherits(Babelify, stream.Transform);
 
 function Babelify(filename, opts) {
+  opts = Object.assign({}, opts)
   if (!(this instanceof Babelify)) {
     return Babelify.configure(opts)(filename);
   }
@@ -13,6 +15,8 @@ function Babelify(filename, opts) {
   stream.Transform.call(this);
   this._data = "";
   this._filename = filename;
+  this._babel = opts.babel || babel
+  delete opts.babel
   this._opts = Object.assign({filename: filename}, opts);
 }
 
@@ -21,14 +25,43 @@ Babelify.prototype._transform = function (buf, enc, callback) {
   callback();
 };
 
+// TODO - replace with semver when babel 7 release
+Babelify.prototype._validateBabelVersion = function () {
+  var split = this._babel.version.split('-')
+  var version = split[0]
+  if (parseInt(version[0]) < 7) return false
+  if (!split[1]) return true
+  var splitBeta = split[1].split('.')
+  if (splitBeta.length === 2 && parseInt(splitBeta[1]) >= 32) return true
+  return false
+}
+
+Babelify.prototype._handleTransformResult = function (result) {
+  this.emit("babelify", result, this._filename);
+  var code = result.code;
+  this.push(code);
+}
+
+Babelify.prototype._handleTransformError = function (err) {
+  if (err) this.emit("error", err);
+}
+
 Babelify.prototype._flush = function (callback) {
+  if (this._validateBabelVersion()) {
+    var self = this;
+    this._babel.transform(this._data, this._opts, (err, result) => {
+      err
+        ? self._handleTransformError(err)
+        : self._handleTransformResult(result);
+      callback();
+    });
+    return
+  }
   try {
-    var result = babel.transform(this._data, this._opts);
-    this.emit("babelify", result, this._filename);
-    var code = result.code;
-    this.push(code);
+    var result = this._babel.transform(this._data, this._opts)
+    this._handleTransformResult(result)
   } catch(err) {
-    this.emit("error", err);
+    this._handleTransformError(err)
     return;
   }
   callback();
@@ -36,7 +69,9 @@ Babelify.prototype._flush = function (callback) {
 
 Babelify.configure = function (opts) {
   opts = Object.assign({}, opts);
-  var extensions = opts.extensions ? babel.util.arrayify(opts.extensions) : null;
+  var extensions = opts.extensions 
+    ? [].concat(opts.extensions)
+    : babel.DEFAULT_EXTENSIONS || [ ".js", ".jsx", ".es6", ".es", ".babel" ];
   var sourceMapsAbsolute = opts.sourceMapsAbsolute;
   if (opts.sourceMaps !== false) opts.sourceMaps = "inline";
 
@@ -62,7 +97,8 @@ Babelify.configure = function (opts) {
   if (opts.presets && opts.presets._) opts.presets = opts.presets._;
 
   return function (filename) {
-    if (!babel.util.canCompile(filename, extensions)) {
+    var extname = path.extname(filename)
+    if (extensions.indexOf(extname) === -1) {
       return stream.PassThrough();
     }
 
