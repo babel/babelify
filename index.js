@@ -25,14 +25,43 @@ Babelify.prototype._transform = function (buf, enc, callback) {
   callback();
 };
 
+// TODO - replace with semver when babel 7 release
+Babelify.prototype._validateBabelVersion = function () {
+  var split = this._babel.version.split('-')
+  var version = split[0]
+  if (parseInt(version[0]) < 7) return false
+  if (!split[1]) return true
+  var splitBeta = split[1].split('.')
+  if (splitBeta.length === 2 && parseInt(splitBeta[1]) >= 32) return true
+  return false
+}
+
+Babelify.prototype._handleTransformResult = function (result) {
+  this.emit("babelify", result, this._filename);
+  var code = result.code;
+  this.push(code);
+}
+
+Babelify.prototype._handleTransformError = function (err) {
+  if (err) this.emit("error", err);
+}
+
 Babelify.prototype._flush = function (callback) {
+  if (this._validateBabelVersion()) {
+    var self = this;
+    this._babel.transform(this._data, this._opts, (err, result) => {
+      err
+        ? self._handleTransformError(err)
+        : self._handleTransformResult(result);
+      callback();
+    });
+    return
+  }
   try {
     var result = this._babel.transform(this._data, this._opts)
-    this.emit("babelify", result, this._filename);
-    var code = result.code;
-    this.push(code);
+    this._handleTransformResult(result)
   } catch(err) {
-    this.emit("error", err);
+    this._handleTransformError(err)
     return;
   }
   callback();
