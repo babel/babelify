@@ -27,7 +27,7 @@ test('source maps relative (cwd)', function(t) {
   });
 
   b.transform(babelify.configure({
-    presets: ['es2015']
+    presets: ['@babel/preset-env']
   }));
 
   b.bundle(function(err, src) {
@@ -62,7 +62,7 @@ test('source maps relative (basedir)', function(t) {
   });
 
   b.transform(babelify.configure({
-    presets: ['es2015']
+    presets: ['@babel/preset-env']
   }));
 
   b.bundle(function(err, src) {

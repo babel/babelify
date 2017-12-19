@@ -16,13 +16,13 @@ test('event', function (t) {
   var babelified = [];
 
   var b = browserify(path.join(__dirname, 'bundle/index.js'));
-  b.transform([babelify, {presets: ['es2015']}]);
+  b.transform([babelify, {presets: ['@babel/preset-env']}]);
 
   b.on('transform', function(tr) {
     if (tr instanceof babelify) {
       tr.once('babelify', function(result, filename) {
         babelified.push(filename);
-        t.type(result.metadata.usedHelpers, Array);
+        t.type(result.code, 'string');
       });
     }
   });

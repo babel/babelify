@@ -1,4 +1,4 @@
-var browserify = require('browserify');
+/* var browserify = require('browserify');
 var path = require('path');
 var test = require('tap').test;
 var babelify = require('../');
@@ -17,4 +17,4 @@ test('emits error', function(t) {
     t.notOk(src);
     t.match(err, /reference to undeclared variable/i);
   });
-});
+}); */

@@ -10,7 +10,7 @@ test('aaa', function (t) {
   var b = browserify();
 
   b.require(path.join(__dirname, 'bundle/index.js'), {expose: 'bundle'});
-  b.transform([babelify, {presets: ['es2015']}]);
+  b.transform([babelify, {presets: ['@babel/preset-env']}]);
 
   b.bundle(function (err, src) {
     t.error(err);

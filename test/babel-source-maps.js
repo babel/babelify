@@ -1,5 +1,5 @@
 var assert = require('assert');
-var babel = require('babel-core');
+var babel = require('@babel/core');
 var convert = require('convert-source-map');
 var fs = require('fs');
 var path = require('path');
@@ -11,22 +11,6 @@ var sourceFile = path.join(__dirname, 'bundle/index.js');
 assert(path.isAbsolute(sourceFile));
 
 var sourceSrc = fs.readFileSync(sourceFile, 'utf8');
-
-test('babel source maps (only filename)', function(t) {
-  var result = babel.transform(sourceSrc, {
-    sourceMaps: 'inline',
-    filename: sourceFile,
-  });
-
-  var sm = convert
-    .fromSource(result.code.toString())
-    .toObject();
-
-  // With only "filename", the source path is the base name.
-  t.same(sm.sources, [path.basename(sourceFile)]);
-
-  t.done();
-});
 
 test('babel source maps (filename and sourceFileName)', function(t) {
   var result = babel.transform(sourceSrc, {
