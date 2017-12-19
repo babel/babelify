@@ -11,8 +11,8 @@ test('browserify-cli no subargs', function (t) {
     '-r', path.join(__dirname, '/bundle/index.js') + ':bundle',
     '-t', '[',
       path.join(__dirname, '../'),
-      '--presets', '@babel/preset-env',
-      '--plugins', '@babel/plugin-transform-property-literals',
+      '--presets', '[', '@babel/preset-env', ']',
+      '--plugins', '[', '@babel/plugin-transform-property-literals', ']',
     ']',
   ];
 
