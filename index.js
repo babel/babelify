@@ -30,8 +30,8 @@ Babelify.prototype._flush = function (callback) {
       this.emit("babelify", result, this._filename);
       var code = result.code;
       this.push(code);
+      callback();
     }
-    callback();
   });
 };
 
