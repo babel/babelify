@@ -7,6 +7,10 @@ As of [Babel 6.0.0](http://babeljs.io/blog/2015/10/29/6.0.0/) there are **no plu
 ## Installation
 
 ```sh
+# Babel 7
+$ npm install --save-dev babelify@next @babel/core
+
+# Babel 6
 $ npm install --save-dev babelify babel-core
 ```
 
@@ -15,7 +19,7 @@ $ npm install --save-dev babelify babel-core
 ### CLI
 
 ```sh
-  $ browserify script.js -o bundle.js -t [ babelify --presets [ env react ] ]
+  $ browserify script.js -o bundle.js -t [ babelify --presets [ "@babel/preset-env", "@babel/preset-react" ] ]
 ```
 
 ### Node
@@ -24,15 +28,15 @@ $ npm install --save-dev babelify babel-core
 var fs = require("fs");
 var browserify = require("browserify");
 browserify("./script.js")
-  .transform("babelify", {presets: ["env", "react"]})
+  .transform("babelify", {presets: ["@babel/preset-env", "@babel/preset-react"]})
   .bundle()
   .pipe(fs.createWriteStream("bundle.js"));
 ```
 
-**NOTE:** [Presets and plugins](http://babeljs.io/docs/plugins/) need to be installed as separate modules. For the above examples to work, you'd need to also install [`babel-preset-env`](https://www.npmjs.com/package/babel-preset-env) and [`babel-preset-react`](https://www.npmjs.com/package/babel-preset-react):
+**NOTE:** [Presets and plugins](http://babeljs.io/docs/plugins/) need to be installed as separate modules. For the above examples to work, you'd need to also install [`@babel/preset-env`](https://www.npmjs.com/package/@babel/preset-env) and [`@babel/preset-react`](https://www.npmjs.com/package/@babel/preset-react):
 
 ```sh
-$ npm install --save-dev babel-preset-env babel-preset-react
+$ npm install --save-dev @babel/preset-env @babel/preset-react
 ```
 
 ### Options
@@ -42,23 +46,23 @@ Selected options are discussed below. See the [babel](http://babeljs.io/) docs f
 Options may be passed in via standard [browserify](https://github.com/substack/node-browserify#btransformtr-opts) ways:
 
 ```sh
-$ browserify -t [ babelify --presets [ env react ] ]
+$ browserify -t [ babelify --presets [ "@babel/preset-env", "@babel/preset-react" ] ]
 ```
 
 ```js
-browserify().transform("babelify", {presets: ["env", "react"]});
+browserify().transform("babelify", {presets: ["@babel/preset-env", "@babel/preset-react"]});
 ```
 
 ```js
 var babelify = require("babelify");
-browserify().transform(babelify, {presets: ["env", "react"]});
+browserify().transform(babelify, {presets: ["@babel/preset-env", "@babel/preset-react"]});
 ```
 
 Or, with the `configure` method:
 
 ```js
 browserify().transform(babelify.configure({
-  presets: ["env", "react"]
+  presets: ["@babel/preset-env", "@babel/preset-react"]
 }));
 ```
 
@@ -178,7 +182,7 @@ specify options then you can use:
 ```json
 {
   "browserify": {
-    "transform": [["babelify", { "presets": ["env"] }]]
+    "transform": [["babelify", { "presets": ["@babel/preset-env"] }]]
   }
 }
 ```
