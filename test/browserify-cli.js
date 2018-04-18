@@ -11,8 +11,8 @@ test('browserify-cli no subargs', function (t) {
     '-r', path.join(__dirname, '/bundle/index.js') + ':bundle',
     '-t', '[',
       path.join(__dirname, '../'),
-      '--presets', 'es2015',
-      '--plugins', 'transform-es3-property-literals',
+      '--presets', '[', '@babel/preset-env', ']',
+      '--plugins', '[', '@babel/plugin-transform-property-literals', ']',
     ']',
   ];
 
@@ -48,9 +48,9 @@ test('browserify-cli with subargs', function (t) {
     '-r', path.join(__dirname, '/bundle/react-flow.js') + ':reactFlow',
     '-t', '[',
       path.join(__dirname, '../'),
-      '--presets', '[', 'es2015', 'react', ']',
+      '--presets', '[', '@babel/preset-env', '@babel/preset-react', '@babel/preset-flow', ']',
       '--plugins', '[',
-        'transform-react-display-name',
+        '@babel/plugin-transform-react-display-name',
         'transform-node-env-inline',
       ']',
     ']'
