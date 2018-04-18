@@ -68,8 +68,9 @@ Babelify.configure = function (opts) {
       return stream.PassThrough();
     }
 
-    var _opts = Object.assign({sourceFileName: sourceMapsAbsolute
-      ? filename : path.basename(filename)}, opts);
+    var _opts = sourceMapsAbsolute
+      ? Object.assign({sourceFileName: filename}, opts)
+      : opts;
 
     return new Babelify(filename, _opts);
   };
