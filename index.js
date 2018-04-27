@@ -62,7 +62,7 @@ Babelify.configure = function (opts) {
   if (opts.plugins && opts.plugins._) opts.plugins = opts.plugins._;
   if (opts.presets && opts.presets._) opts.presets = opts.presets._;
 
-  return function (filename) {
+  return function (filename, topts) {
     var extname = path.extname(filename);
     if (extensions.indexOf(extname) === -1) {
       return stream.PassThrough();
@@ -71,6 +71,8 @@ Babelify.configure = function (opts) {
     var _opts = sourceMapsAbsolute
       ? Object.assign({sourceFileName: filename}, opts)
       : opts;
+
+    if (topts && topts._flags && topts._flags.basedir) _opts.cwd = topts._flags.basedir;
 
     return new Babelify(filename, _opts);
   };
