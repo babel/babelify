@@ -27,9 +27,13 @@ Babelify.prototype._flush = function (callback) {
     if (err) {
       this.emit("error", err);
     } else {
-      this.emit("babelify", result, this._filename);
-      var code = result.code;
-      this.push(code);
+      if (result === null) {
+        this.push(this._data);
+      } else {
+        this.emit("babelify", result, this._filename);
+        var code = result.code;
+        this.push(code);
+      }
       callback();
     }
   });
