@@ -26,10 +26,14 @@ Babelify.prototype._flush = function (callback) {
   babel.transform(this._data, this._opts, (err, result) => {
     if (err) {
       this.emit("error", err);
-    } else if (result !== null) {
-      this.emit("babelify", result, this._filename);
-      var code = result.code;
-      this.push(code);
+    } else {
+      if (result === null) {
+        this.push(this._data);
+      } else {
+        this.emit("babelify", result, this._filename);
+        var code = result.code;
+        this.push(code);
+      }
       callback();
     }
   });
