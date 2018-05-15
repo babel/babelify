@@ -16,12 +16,12 @@
     "@babel/core": "7 || ^7.0.0-alpha || ^7.0.0-beta || ^7.0.0-rc"
   },
   "devDependencies": {
-    "@babel/core": "7.0.0-beta.46",
-    "@babel/plugin-transform-property-literals": "7.0.0-beta.46",
-    "@babel/plugin-transform-react-display-name": "7.0.0-beta.46",
-    "@babel/preset-env": "7.0.0-beta.46",
-    "@babel/preset-flow": "7.0.0-beta.46",
-    "@babel/preset-react": "7.0.0-beta.46",
+    "@babel/core": "7.0.0-beta.47",
+    "@babel/plugin-transform-property-literals": "7.0.0-beta.47",
+    "@babel/plugin-transform-react-display-name": "7.0.0-beta.47",
+    "@babel/preset-env": "7.0.0-beta.47",
+    "@babel/preset-flow": "7.0.0-beta.47",
+    "@babel/preset-react": "7.0.0-beta.47",
     "babel-plugin-transform-node-env-inline": "^6.0.14",
     "browserify": "^13.0.0",
     "convert-source-map": "^1.1.0",
