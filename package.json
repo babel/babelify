@@ -22,11 +22,11 @@
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
-    "babel-plugin-transform-node-env-inline": "^6.0.14",
-    "browserify": "^13.0.0",
-    "convert-source-map": "^1.1.0",
+    "babel-plugin-transform-node-env-inline": "^0.4.3",
+    "browserify": "^16.2.2",
+    "convert-source-map": "^1.5.1",
     "lodash.zipobject": "^4.1.3",
-    "tap": "^10.7.3"
+    "tap": "^12.0.1"
   },
   "scripts": {
     "test": "tap test/*.js"
