@@ -8,10 +8,10 @@ As of [Babel 6.0.0](http://babeljs.io/blog/2015/10/29/6.0.0/) there are **no plu
 
 ```sh
 # Babel 7
-$ npm install --save-dev babelify@next @babel/core
+$ npm install --save-dev babelify @babel/core
 
 # Babel 6
-$ npm install --save-dev babelify babel-core
+$ npm install --save-dev babelify@8 babel-core
 ```
 
 ## Usage
