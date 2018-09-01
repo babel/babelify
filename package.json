@@ -5,6 +5,9 @@
   "author": "Sebastian McKenzie <sebmck@gmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/babel/babelify",
+  "engines": {
+    "node": ">=6.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/babel/babelify.git"
