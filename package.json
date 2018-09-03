@@ -5,6 +5,9 @@
   "author": "Sebastian McKenzie <sebmck@gmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/babel/babelify",
+  "engines": {
+    "node": ">=6.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/babel/babelify.git"
@@ -13,20 +16,20 @@
     "url": "https://github.com/babel/babelify/issues"
   },
   "peerDependencies": {
-    "@babel/core": "7 || ^7.0.0-alpha || ^7.0.0-beta || ^7.0.0-rc"
+    "@babel/core": "^7.0.0"
   },
   "devDependencies": {
-    "@babel/core": "7.0.0-beta.47",
-    "@babel/plugin-transform-property-literals": "7.0.0-beta.47",
-    "@babel/plugin-transform-react-display-name": "7.0.0-beta.47",
-    "@babel/preset-env": "7.0.0-beta.47",
-    "@babel/preset-flow": "7.0.0-beta.47",
-    "@babel/preset-react": "7.0.0-beta.47",
-    "babel-plugin-transform-node-env-inline": "^6.0.14",
-    "browserify": "^13.0.0",
-    "convert-source-map": "^1.1.0",
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-transform-property-literals": "^7.0.0",
+    "@babel/plugin-transform-react-display-name": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-flow": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
+    "babel-plugin-transform-node-env-inline": "^0.4.3",
+    "browserify": "^16.2.2",
+    "convert-source-map": "^1.5.1",
     "lodash.zipobject": "^4.1.3",
-    "tap": "^10.7.3"
+    "tap": "^12.0.1"
   },
   "scripts": {
     "test": "tap test/*.js"
