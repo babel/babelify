@@ -19,7 +19,7 @@ $ npm install --save-dev babelify babel-core
 ### CLI
 
 ```sh
-  $ browserify script.js -o bundle.js -t [ babelify --presets [ "@babel/preset-env", "@babel/preset-react" ] ]
+  $ browserify script.js -o bundle.js -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ]
 ```
 
 ### Node
@@ -46,7 +46,7 @@ Selected options are discussed below. See the [babel](http://babeljs.io/) docs f
 Options may be passed in via standard [browserify](https://github.com/substack/node-browserify#btransformtr-opts) ways:
 
 ```sh
-$ browserify -t [ babelify --presets [ "@babel/preset-env", "@babel/preset-react" ] ]
+$ browserify -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ]
 ```
 
 ```js
