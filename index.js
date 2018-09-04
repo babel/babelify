@@ -1,3 +1,5 @@
+"use strict";
+
 var stream = require("stream");
 var util   = require("util");
 var path   = require("path");
