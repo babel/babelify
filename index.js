@@ -74,9 +74,6 @@ Babelify.configure = function (opts) {
   delete opts.extensions;
   delete opts.filename;
 
-  // babelify backwards-compat
-  delete opts.sourceMapRelative;
-
   // browserify specific options
   delete opts._flags;
   delete opts.basedir;
