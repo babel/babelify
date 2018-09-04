@@ -47,7 +47,7 @@ Babelify.prototype._flush = function (callback) {
   // to avoid corrupting multibyte characters.
   const data = Buffer.concat(this._data).toString();
 
-  babel.transform(data, this._opts, (err, result) => {
+  transform(data, this._opts, (err, result) => {
     if (err) {
       this.emit("error", err);
     } else {
@@ -112,10 +112,6 @@ function normalizeOptions(preconfiguredOpts, transformOpts, filename) {
     ),
     filename: absoluteFilename,
 
-    // Since Browserify can only handle inline sourcemaps, we override any other
-    // values to force inline sourcemaps unless they've been disabled.
-    sourceMaps: opts.sourceMaps === false ? false : "inline",
-
     // The default sourcemap path is the path of the file relative to the
     // basedir. This should mirror Browserify's internal behavior when
     // 'debug' is enabled.
@@ -149,4 +145,23 @@ function normalizeTransformOpts(opts) {
   delete opts.global;
 
   return opts;
+}
+
+function transform(data, inputOpts, done) {
+  let cfg;
+  try {
+    cfg = babel.loadPartialConfig(inputOpts);
+    if (!cfg) return done(null, null);
+  } catch (err) {
+    return done(err);
+  }
+  const opts = cfg.options;
+
+  // Since Browserify can only handle inline sourcemaps, we override any other
+  // values to force inline sourcemaps unless they've been disabled.
+  if (opts.sourceMaps !== false) {
+    opts.sourceMaps = "inline";
+  }
+
+  babel.transform(data, opts, done);
 }
