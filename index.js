@@ -56,7 +56,7 @@ Babelify.prototype._flush = function (callback) {
       this.emit("error", err);
     } else {
       this.emit("babelify", result, this._filename);
-      var code = result !== null ? result.code : this._data;
+      var code = result !== null ? result.code : data;
       this.push(code);
       callback();
     }
