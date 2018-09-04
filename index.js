@@ -34,7 +34,11 @@ function Babelify(filename, opts) {
   stream.Transform.call(this);
   this._data = "";
   this._filename = filename;
-  this._opts = Object.assign({filename: filename}, opts);
+  this._opts = Object.assign({filename: filename}, opts, {
+    caller: Object.assign({
+      name: "babelify",
+    }, opts.caller),
+  });
 }
 
 Babelify.prototype._transform = function (buf, enc, callback) {
