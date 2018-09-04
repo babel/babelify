@@ -19,7 +19,7 @@ try {
 if (/^6\./.test(babel.version)) {
   throw new Error(
     "\n babel-loader@8 will not work with the '@babel/core@6' bridge package. " +
-      "If you want to use Babel 6.x, install 'babel-loader@7'.",
+      "If you want to use Babel 6.x, install 'babel-loader@7'."
   );
 }
 
