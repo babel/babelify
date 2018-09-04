@@ -28,17 +28,13 @@ util.inherits(Babelify, stream.Transform);
 
 function Babelify(filename, opts) {
   if (!(this instanceof Babelify)) {
-    return Babelify.configure(opts)(filename);
+    return babelify(filename, opts);
   }
 
   stream.Transform.call(this);
   this._data = [];
   this._filename = filename;
-  this._opts = Object.assign({filename: filename}, opts, {
-    caller: Object.assign({
-      name: "babelify",
-    }, opts.caller),
-  });
+  this._opts = opts;
 }
 
 Babelify.prototype._transform = function (buf, enc, callback) {
@@ -63,21 +59,81 @@ Babelify.prototype._flush = function (callback) {
   });
 };
 
-Babelify.configure = function (opts) {
-  opts = Object.assign({}, opts);
-  var extensions = opts.extensions || babel.DEFAULT_EXTENSIONS;
-  var sourceMapsAbsolute = opts.sourceMapsAbsolute;
-  if (opts.sourceMaps !== false) opts.sourceMaps = "inline";
+Babelify.configure = buildTransform;
+
+const babelify = buildTransform();
+
+function buildTransform(opts) {
+  return function (filename, transformOpts) {
+    const babelOpts = normalizeOptions(opts, transformOpts, filename);
+    if (babelOpts === null) {
+      return stream.PassThrough();
+    }
+
+    return new Babelify(filename, babelOpts);
+  };
+}
+
+function normalizeOptions(preconfiguredOpts, transformOpts, filename) {
+  const basedir = normalizeTransformBasedir(transformOpts);
+  const opts = normalizeTransformOpts(transformOpts);
+
+  // Transform options override preconfigured options unless they are undefined.
+  if (preconfiguredOpts) {
+    for (const key of Object.keys(preconfiguredOpts)) {
+      if (opts[key] === undefined) {
+        opts[key] = preconfiguredOpts[key];
+      }
+    }
+  }
 
   // babelify specific options
+  var extensions = opts.extensions || babel.DEFAULT_EXTENSIONS;
+  var sourceMapsAbsolute = opts.sourceMapsAbsolute;
   delete opts.sourceMapsAbsolute;
   delete opts.extensions;
-  delete opts.filename;
 
-  // browserify specific options
-  delete opts._flags;
-  delete opts.basedir;
-  delete opts.global;
+  var extname = path.extname(filename);
+  if (extensions.indexOf(extname) === -1) {
+    return null;
+  }
+
+  // Browserify doesn't actually always normalize the filename passed
+  // to transforms, so we manually ensure that the filename is relative
+  const absoluteFilename = path.resolve(basedir, filename);
+
+  Object.assign(opts, {
+    cwd: opts.cwd === undefined ? basedir : opts.cwd,
+    caller: Object.assign(
+      {
+        name: "babelify",
+      },
+      opts.caller
+    ),
+    filename: absoluteFilename,
+
+    // Since Browserify can only handle inline sourcemaps, we override any other
+    // values to force inline sourcemaps unless they've been disabled.
+    sourceMaps: opts.sourceMaps === false ? false : "inline",
+
+    // The default sourcemap path is the path of the file relative to the
+    // basedir. This should mirror Browserify's internal behavior when
+    // 'debug' is enabled.
+    sourceFileName:
+      sourceMapsAbsolute
+        ? absoluteFilename
+        : path.relative(basedir, absoluteFilename),
+  });
+
+  return opts;
+}
+
+function normalizeTransformBasedir(opts) {
+  return path.resolve(opts._flags && opts._flags.basedir || ".");
+}
+
+function normalizeTransformOpts(opts) {
+  opts = Object.assign({}, opts);
 
   // browserify cli options
   delete opts._;
@@ -87,18 +143,10 @@ Babelify.configure = function (opts) {
   if (opts.plugins && opts.plugins._) opts.plugins = opts.plugins._;
   if (opts.presets && opts.presets._) opts.presets = opts.presets._;
 
-  return function (filename, topts) {
-    var extname = path.extname(filename);
-    if (extensions.indexOf(extname) === -1) {
-      return stream.PassThrough();
-    }
+  // browserify specific options
+  delete opts._flags;
+  delete opts.basedir;
+  delete opts.global;
 
-    var _opts = sourceMapsAbsolute
-      ? Object.assign({sourceFileName: filename}, opts)
-      : opts;
-
-    if (topts && topts._flags && topts._flags.basedir) _opts.cwd = topts._flags.basedir;
-
-    return new Babelify(filename, _opts);
-  };
-};
+  return opts;
+}
