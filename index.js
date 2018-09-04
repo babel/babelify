@@ -23,45 +23,17 @@ if (/^6\./.test(babel.version)) {
   );
 }
 
-module.exports = Babelify;
-util.inherits(Babelify, stream.Transform);
+module.exports = buildTransform();
+module.exports.configure = buildTransform;
 
-function Babelify(filename, opts) {
-  if (!(this instanceof Babelify)) {
-    return babelify(filename, opts);
-  }
-
-  stream.Transform.call(this);
-  this._data = [];
-  this._filename = filename;
-  this._opts = opts;
-}
-
-Babelify.prototype._transform = function (buf, enc, callback) {
-  this._data.push(buf);
-  callback();
-};
-
-Babelify.prototype._flush = function (callback) {
-  // Merge the buffer pieces after all are available, instead of one at a time,
-  // to avoid corrupting multibyte characters.
-  const data = Buffer.concat(this._data).toString();
-
-  transform(data, this._opts, (err, result) => {
-    if (err) {
-      this.emit("error", err);
-    } else {
-      this.emit("babelify", result, this._filename);
-      var code = result !== null ? result.code : data;
-      this.push(code);
-      callback();
-    }
-  });
-};
-
-Babelify.configure = buildTransform;
-
-const babelify = buildTransform();
+// Allow projects to import this module and check `foo instanceof babelify`
+// to see if the current stream they are working with is one created
+// by Babelify.
+Object.defineProperty(module.exports, Symbol.hasInstance, {
+  value: function hasInstance(obj) {
+    return obj instanceof BabelifyStream;
+  },
+});
 
 function buildTransform(opts) {
   return function (filename, transformOpts) {
@@ -70,7 +42,7 @@ function buildTransform(opts) {
       return stream.PassThrough();
     }
 
-    return new Babelify(filename, babelOpts);
+    return new BabelifyStream(babelOpts);
   };
 }
 
@@ -145,6 +117,39 @@ function normalizeTransformOpts(opts) {
   delete opts.global;
 
   return opts;
+}
+
+class BabelifyStream extends stream.Transform {
+  constructor(opts) {
+    super();
+    this._data = [];
+    this._opts = opts;
+  }
+
+  _transform(buf, enc, callback) {
+    this._data.push(buf);
+    callback();
+  }
+
+  _flush(callback) {
+    // Merge the buffer pieces after all are available, instead of one at a time,
+    // to avoid corrupting multibyte characters.
+    const data = Buffer.concat(this._data).toString();
+
+    transform(data, this._opts, (err, result) => {
+      if (err) {
+        callback(err);
+      } else {
+        this.emit("babelify", result, this._opts.filename);
+        var code = result !== null ? result.code : data;
+
+        // Note: Node 8.x allows passing 'code' to the callback instead of
+        // manually pushing, but we need to support Node 6.x.
+        this.push(code);
+        callback();
+      }
+    });
+  }
 }
 
 function transform(data, inputOpts, done) {
