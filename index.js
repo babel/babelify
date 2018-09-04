@@ -10,8 +10,8 @@ try {
 } catch (err) {
   if (err.code === "MODULE_NOT_FOUND") {
     err.message +=
-      "\n babelify@9 requires Babel 7.x (the package '@babel/core'). " +
-      "If you'd like to use Babel 6.x ('babel-core'), you should install 'babel-loader@7'.";
+      "\n babelify@10 requires Babel 7.x (the package '@babel/core'). " +
+      "If you'd like to use Babel 6.x ('babel-core'), you should install 'babelify@8'.";
   }
   throw err;
 }
@@ -20,8 +20,8 @@ try {
 // people useful feedback if they try to use it alongside babel-loader.
 if (/^6\./.test(babel.version)) {
   throw new Error(
-    "\n babel-loader@8 will not work with the '@babel/core@6' bridge package. " +
-      "If you want to use Babel 6.x, install 'babel-loader@7'."
+    "\n babelify@10 will not work with the '@babel/core@6' bridge package. " +
+      "If you want to use Babel 6.x, install 'babelify@8'."
   );
 }
 
