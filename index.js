@@ -32,7 +32,7 @@ function Babelify(filename, opts) {
   }
 
   stream.Transform.call(this);
-  this._data = "";
+  this._data = [];
   this._filename = filename;
   this._opts = Object.assign({filename: filename}, opts, {
     caller: Object.assign({
@@ -42,12 +42,16 @@ function Babelify(filename, opts) {
 }
 
 Babelify.prototype._transform = function (buf, enc, callback) {
-  this._data += buf;
+  this._data.push(buf);
   callback();
 };
 
 Babelify.prototype._flush = function (callback) {
-  babel.transform(this._data, this._opts, (err, result) => {
+  // Merge the buffer pieces after all are available, instead of one at a time,
+  // to avoid corrupting multibyte characters.
+  const data = Buffer.concat(this._data).toString();
+
+  babel.transform(data, this._opts, (err, result) => {
     if (err) {
       this.emit("error", err);
     } else {
