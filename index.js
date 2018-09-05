@@ -86,13 +86,10 @@ function normalizeOptions(preconfiguredOpts, transformOpts, filename) {
     ),
     filename: absoluteFilename,
 
-    // The default sourcemap path is the path of the file relative to the
-    // basedir. This should mirror Browserify's internal behavior when
-    // 'debug' is enabled.
     sourceFileName:
       sourceMapsAbsolute
         ? absoluteFilename
-        : path.relative(basedir, absoluteFilename),
+        : undefined,
   });
 
   return opts;
