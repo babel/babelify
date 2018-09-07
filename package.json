@@ -1,15 +1,12 @@
 {
   "name": "babelify",
   "description": "Babel browserify transform",
-  "version": "10.0.0-beta.1",
+  "version": "10.0.0",
   "author": "Sebastian McKenzie <sebmck@gmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/babel/babelify",
   "engines": {
     "node": ">=6.9.0"
-  },
-  "publishConfig": {
-    "tag": "next"
   },
   "repository": {
     "type": "git",
