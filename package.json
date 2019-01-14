@@ -33,5 +33,8 @@
   },
   "scripts": {
     "test": "tap test/*.js"
+  },
+  "dependencies": {
+    "findup": "^0.1.5"
   }
 }
