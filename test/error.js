@@ -12,6 +12,6 @@ test('emits error', function(t) {
 
   b.bundle(function (err, src) {
     t.notOk(src);
-    t.match(err, /super\(\) is only allowed in a derived constructor/i);
+    t.match(err, /super\(\) is only valid inside a class constructor of a subclass/i);
   });
 });
