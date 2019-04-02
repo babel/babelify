@@ -88,7 +88,7 @@ import NavBar from "nav-bar.babel";
 var Panels = require("panels.babel");
 ```
 
-**NOTE:** By default, Browserify will only lookup `.js` and `.json` files when the extension is ommited (like node's `require`). To lookup additional extensions, use browserify's [`extensions` option](https://github.com/substack/node-browserify#browserifyfiles--opts).
+**NOTE:** By default, Browserify will only lookup `.js` and `.json` files when the extension is omitted (like node's `require`). To lookup additional extensions, use browserify's [`extensions` option](https://github.com/substack/node-browserify#browserifyfiles--opts).
 
 ```js
 browserify({
