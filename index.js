@@ -1,5 +1,6 @@
 "use strict";
 
+var findup = require("findup");
 var stream = require("stream");
 var util   = require("util");
 var path   = require("path");
@@ -49,7 +50,7 @@ function buildTransform(opts) {
 }
 
 function normalizeOptions(preconfiguredOpts, transformOpts, filename) {
-  const basedir = normalizeTransformBasedir(transformOpts);
+  const basedir = normalizeTransformBasedir(filename);
   const opts = normalizeTransformOpts(transformOpts);
 
   // Transform options override preconfigured options unless they are undefined.
@@ -95,8 +96,18 @@ function normalizeOptions(preconfiguredOpts, transformOpts, filename) {
   return opts;
 }
 
-function normalizeTransformBasedir(opts) {
-  return path.resolve(opts._flags && opts._flags.basedir || ".");
+var findConfigCache = {};
+
+function normalizeTransformBasedir(filename) {
+  var dirname = path.dirname(filename);
+
+  try {
+    return findConfigCache[dirname] || (
+      findConfigCache[dirname] = findup.sync(dirname, "package.json")
+    );
+  } catch (e) {
+    return dirname;
+  }
 }
 
 function normalizeTransformOpts(opts) {
