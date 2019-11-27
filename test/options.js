@@ -10,7 +10,9 @@ test('passes options via configure', function(t) {
 
   b.transform(babelify.configure({
     presets: ['@babel/preset-env'],
-    plugins: ['@babel/plugin-transform-property-literals']
+    plugins: ['@babel/plugin-transform-property-literals'],
+    ignore: [/fakeregex/],
+    only: [/index.js$/, /a.js$/, /b.js$/, /c.js$/]
   }));
 
   b.bundle(function (err, src) {
@@ -27,7 +29,9 @@ test('passes options via browserify', function(t) {
 
   b.transform(babelify, {
     presets: ['@babel/preset-env'],
-    plugins: ['@babel/plugin-transform-property-literals']
+    plugins: ['@babel/plugin-transform-property-literals'],
+    ignore: [/fakeregex/],
+    only: [/index.js$/, /a.js$/, /b.js$/, /c.js$/]
   });
 
   b.bundle(function (err, src) {
