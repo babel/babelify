@@ -131,14 +131,14 @@ browserify().transform(babelify.configure({
   // this array, then they aren't compiled.
   ignore: [/regex/],
 
-  // Optional only regex - if any filenames **don't** match this regex
-  // then they aren't compiled
-  only: /my_es6_folder/
+  // Optional 'only' regex array - if any filenames **don't** match a regex in
+  // this array, then they aren't compiled.
+  only: [/my_es6_folder/]
 }))
 ```
 
 ```sh
-$ browserify -t [ babelify --ignore [ regex ] --only my_es6_folder ]
+$ browserify -t [ babelify --ignore [ regex ] --only [ my_es6_folder ] ]
 ```
 
 #### Babel result (metadata and others)
