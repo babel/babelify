@@ -2,7 +2,7 @@
 
 [Babel](https://github.com/babel/babel) [browserify](https://github.com/substack/node-browserify) transform.
 
-As of [Babel 6.0.0](http://babeljs.io/blog/2015/10/29/6.0.0/) there are **no plugins included by default**. For babelify to be useful, you must also include some [presets](http://babeljs.io/docs/plugins/#presets) and/or [plugins](http://babeljs.io/docs/plugins/#transform).
+As of [Babel 6.0.0](https://babeljs.io/blog/2015/10/29/6.0.0/) there are **no plugins included by default**. For babelify to be useful, you must also include some [presets](https://babeljs.io/docs/plugins/#presets) and/or [plugins](https://babeljs.io/docs/plugins/#transform).
 
 ## Installation
 
@@ -33,7 +33,7 @@ browserify("./script.js")
   .pipe(fs.createWriteStream("bundle.js"));
 ```
 
-**NOTE:** [Presets and plugins](http://babeljs.io/docs/plugins/) need to be installed as separate modules. For the above examples to work, you'd need to also install [`@babel/preset-env`](https://www.npmjs.com/package/@babel/preset-env) and [`@babel/preset-react`](https://www.npmjs.com/package/@babel/preset-react):
+**NOTE:** [Presets and plugins](https://babeljs.io/docs/plugins/) need to be installed as separate modules. For the above examples to work, you'd need to also install [`@babel/preset-env`](https://www.npmjs.com/package/@babel/preset-env) and [`@babel/preset-react`](https://www.npmjs.com/package/@babel/preset-react):
 
 ```sh
 $ npm install --save-dev @babel/preset-env @babel/preset-react
@@ -41,7 +41,7 @@ $ npm install --save-dev @babel/preset-env @babel/preset-react
 
 ### Options
 
-Selected options are discussed below. See the [babel](http://babeljs.io/) docs for the complete list of [options](http://babeljs.io/docs/usage/options/).
+Selected options are discussed below. See the [babel](https://babeljs.io/) docs for the complete list of [options](https://babeljs.io/docs/usage/options/).
 
 Options may be passed in via standard [browserify](https://github.com/substack/node-browserify#btransformtr-opts) ways:
 
@@ -187,7 +187,7 @@ specify options then you can use:
 }
 ```
 
-Another solution (proceed with caution!) is to run babelify as a [global](https://github.com/substack/node-browserify#btransformtr-opts) transform. Use the babel [`ignore` option](http://babeljs.io/docs/usage/options/) to narrow the number of files transformed:
+Another solution (proceed with caution!) is to run babelify as a [global](https://github.com/substack/node-browserify#btransformtr-opts) transform. Use the babel [`ignore` option](https://babeljs.io/docs/usage/options/) to narrow the number of files transformed:
 
 ```js
 browserify().transform("babelify", {
