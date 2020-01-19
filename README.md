@@ -127,9 +127,9 @@ $ browserify -t [ babelify --sourceMapsAbsolute ]
 
 ```javascript
 browserify().transform(babelify.configure({
-  // Optional ignore regex - if any filenames **do** match this regex then
-  // they aren't compiled
-  ignore: /regex/,
+  // Optional 'ignore' regex array - if any filenames **do** match a regex in
+  // this array, then they aren't compiled.
+  ignore: [/regex/],
 
   // Optional only regex - if any filenames **don't** match this regex
   // then they aren't compiled
@@ -138,7 +138,7 @@ browserify().transform(babelify.configure({
 ```
 
 ```sh
-$ browserify -t [ babelify --ignore regex --only my_es6_folder ]
+$ browserify -t [ babelify --ignore [ regex ] --only my_es6_folder ]
 ```
 
 #### Babel result (metadata and others)
@@ -192,7 +192,7 @@ Another solution (proceed with caution!) is to run babelify as a [global](https:
 ```js
 browserify().transform("babelify", {
   global: true,
-  ignore: /\/node_modules\/(?!app\/)/
+  ignore: [/\/node_modules\/(?!app\/)/]
 });
 ```
 
