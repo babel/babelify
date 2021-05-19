@@ -19,7 +19,7 @@ $ npm install --save-dev babelify@8 babel-core
 ### CLI
 
 ```sh
-$ browserify script.js -o bundle.js -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] --plugins [ @babel/plugin-transform-class-properties ] ]
+$ browserify script.js -o bundle.js -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ]
 ```
 
 ### Node
