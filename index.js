@@ -109,6 +109,7 @@ function normalizeTransformOpts(opts) {
   if (opts.only && opts.only._) opts.only = opts.only._;
   if (opts.plugins && opts.plugins._) opts.plugins = opts.plugins._;
   if (opts.presets && opts.presets._) opts.presets = opts.presets._;
+  if (opts.extensions && opts.extensions._) opts.extensions = opts.extensions._;
 
   // browserify specific options
   delete opts._flags;
